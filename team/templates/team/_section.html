@@ -1,0 +1,36 @@
+{% load i18n %}
+<section class="section" id="komanda">
+  <span class="shape cube f-a" style="--c1:#FF3D9A;--c2:#FFD84D;width:44px;height:44px;top:10%;right:8%"></span>
+  <div class="shell">
+    <div class="sec-head rv">
+      <span class="eyebrow">{% trans "Əməkdaşlar" %}</span>
+      <h2>{% trans "Səhnə arxasındakı" %} <span class="grad-text">{% trans "komanda" %}</span></h2>
+      <p>{% trans "Prodakşn menecerləri, işıq və səs mühəndisləri, kreativ direktorlar və spikerlər." %}</p>
+    </div>
+
+    <div class="team" id="team">
+      {% for member in team_members %}
+        {% cycle '1' '2' '3' '4' as delay silent %}
+        {% cycle 'cool' 'hot' 'warm' as gradient silent %}
+        {% include "team/_member_card.html" with member=member delay=delay gradient=gradient %}
+      {% endfor %}
+    </div>
+    <script>
+    /* Hovuzdan təsadüfi 5 üzv seç — hər refreshdə fərqli komanda görünür.
+       Skript qrid-in dərhal ardınca işləyir ki, artıq kartlar ekranda görünməsin. */
+    (function(){
+      var SHOW = 5;
+      var grid = document.getElementById('team');
+      var pool = Array.prototype.slice.call(grid.children);
+      for (var i = pool.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+      }
+      pool.forEach(function(el, i){
+        if (i < SHOW) { el.setAttribute('data-d', String(i + 1)); grid.appendChild(el); }
+        else { grid.removeChild(el); }
+      });
+    })();
+    </script>
+  </div>
+</section>

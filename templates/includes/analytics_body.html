@@ -1,0 +1,5 @@
+{# Google Tag Manager <noscript> fallback — must be the first element inside <body>. #}
+{% if analytics_enabled and seo_settings.google_tag_manager_id %}
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ seo_settings.google_tag_manager_id }}"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+{% endif %}

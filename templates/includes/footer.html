@@ -1,0 +1,65 @@
+{% load i18n %}
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__future">
+      <div class="ff-line rv">
+        <span class="ff-word grad-text">FOOTER</span>
+        <span class="ff-note">{{ site_settings.footer_note }}</span>
+      </div>
+      <div class="ff-line ff-line--2 rv" data-d="1">
+        <span class="ff-word outline">FUTURE</span>
+      </div>
+    </div>
+
+    <div class="footer__cols">
+      <div class="rv">
+        <a href="{% url 'home:page' %}#ana" class="logo" style="margin-bottom:6px">
+          <span class="logo__mark">{{ site_settings.logo_mark_text }}</span>
+          <span class="logo__txt">{{ site_settings.site_name|upper }}<small>Event Production</small></span>
+        </a>
+        <p>{{ site_settings.meta_description }}</p>
+        <div class="soc-row">
+          <a href="{{ site_settings.instagram_url|default:'https://instagram.com' }}" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a>
+          <a href="{{ site_settings.facebook_url|default:'https://facebook.com' }}" target="_blank" rel="noopener" aria-label="Facebook"><svg><use href="#i-fb"/></svg></a>
+          <a href="{{ site_settings.linkedin_url|default:'https://linkedin.com' }}" target="_blank" rel="noopener" aria-label="LinkedIn"><svg><use href="#i-in"/></svg></a>
+          <a href="{{ site_settings.youtube_url|default:'https://youtube.com' }}" target="_blank" rel="noopener" aria-label="YouTube"><svg><use href="#i-yt"/></svg></a>
+        </div>
+      </div>
+
+      <div class="rv" data-d="1">
+        <h4>{% trans "Naviqasiya" %}</h4>
+        <a href="{% url 'home:page' %}#ana">{% trans "Ana səhifə" %}</a>
+        <a href="{% url 'about:page' %}">{% trans "Haqqımızda" %}</a>
+        <a href="{% url 'equipment:page' %}">{% trans "Avadanlıqlar" %}</a>
+        <a href="{% url 'projects:list' %}">{% trans "Layihələr" %}</a>
+        <a href="{% url 'team:list' %}">{% trans "Komanda" %}</a>
+      </div>
+
+      <div class="rv" data-d="2">
+        <h4>{% trans "Xidmətlər" %}</h4>
+        {% for tag in service_tags %}
+          <a href="{% url 'equipment:page' %}">{{ tag.label }}</a>
+        {% endfor %}
+      </div>
+
+      <div class="rv" data-d="3">
+        <h4>{% trans "Əlaqə" %}</h4>
+        <a href="{{ site_settings.email_href }}">{{ site_settings.email }}</a>
+        <a href="{{ site_settings.phone_href }}">{{ site_settings.phone }}</a>
+        <a href="{{ site_settings.office_phone_href }}">{{ site_settings.office_phone }}</a>
+        <a href="{{ site_settings.maps_href }}" class="js-map-link" data-map-query="{{ site_settings.map_destination }}" target="_blank" rel="noopener">{{ site_settings.address_line }}</a>
+        <a href="{% url 'home:page' %}#elaqe" class="btn btn--ghost btn--sm" style="margin-top:16px;display:inline-flex">{% trans "Brif göndər" %}</a>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> {{ site_settings.copyright_text }}</span>
+      <div class="footer__legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>

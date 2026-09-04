@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<section class="section">
+  <span class="shape ring f-c" style="--c1:#22D3EE;--c2:#8B5CF6;width:120px;height:120px;top:6%;left:2%"></span>
+  <div class="shell">
+    <div class="sec-head rv">
+      <span class="eyebrow">{{ project.category.name }}</span>
+      <h2>{{ project.title }}</h2>
+      <p>{{ project.meta_primary }}{% if project.meta_secondary %} · {{ project.meta_secondary }}{% endif %}</p>
+    </div>
+
+    <div class="about__grid">
+      <div class="about__media rv">
+        <img loading="lazy" decoding="async" src="{{ project.display_image_url }}" alt="{{ project.title }}">
+      </div>
+      <div class="about__text rv" data-d="1">
+        {% if project.description %}<p class="lead">{{ project.description }}</p>{% endif %}
+        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:32px">
+          <a href="{% url 'projects:list' %}" class="btn btn--ghost">{% trans "Bütün layihələr" %}</a>
+          <a href="{% url 'home:page' %}#elaqe" class="btn btn--grad">{% trans "Bizimlə əlaqə" %} <svg width="15" height="15"><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

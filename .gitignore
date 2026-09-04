@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.sqlite3
+venv/
+.env
+media/
+staticfiles/
+*.log
+.DS_Store
+.vscode/
+.idea/
+locale/*/LC_MESSAGES/*.mo
+.claude/settings.local.json

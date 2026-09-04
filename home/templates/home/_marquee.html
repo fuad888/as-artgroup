@@ -1,0 +1,8 @@
+{# The track is duplicated 4× so the CSS translateX(-50%) loop stays seamless. #}
+<!-- ===== MARQUEE ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    {% for i in "1234" %}{% for tag in service_tags %}<span>{{ tag.label }}</span>{% endfor %}
+    {% endfor %}
+  </div>
+</div>

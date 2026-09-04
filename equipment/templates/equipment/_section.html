@@ -1,0 +1,24 @@
+{% load i18n %}
+<section class="section" id="avadanliq">
+  <span class="shape pyr f-a" style="--c1:#FF3D9A;--c2:#FFD84D;width:64px;height:58px;top:12%;right:5%"></span>
+  <div class="shell">
+    <div class="sec-head rv">
+      <span class="eyebrow">{% trans "Avadanlıqlar" %}</span>
+      <h2>{% trans "Texnika" %} <span class="grad-text">{% trans "şouyu daşıyır" %}</span></h2>
+      <p>{% trans "Öz parkımız, öz mühəndislərimiz. Kirayə, quraşdırma və tədbir boyu operator dəstəyi bir paketdə." %}</p>
+    </div>
+
+    <div class="eq">
+      {% for category in equipment_categories %}
+      {# Card overlays keep the original per-gradient colour pairs. #}
+      <article class="eq-card rv" data-d="{{ forloop.counter }}" style="--g:linear-gradient(160deg,{% if category.gradient_key == 'warm' %}rgba(255,216,77,.5),rgba(255,61,154,.35){% elif category.gradient_key == 'cool' %}rgba(46,123,255,.5),rgba(34,211,238,.35){% else %}rgba(139,92,246,.5),rgba(255,61,154,.35){% endif %})">
+        <img loading="lazy" decoding="async" src="{{ category.display_image_url }}" alt="{{ category.title }}">
+        <span class="eq-card__tag">{{ category.tag_number }} — {{ category.tag_label }}</span>
+        <h3>{{ category.title }}</h3>
+        <p>{{ category.description }}</p>
+        <ul>{% for tag in category.tags.all %}<li>{{ tag.label }}</li>{% endfor %}</ul>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

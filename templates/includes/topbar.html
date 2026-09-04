@@ -1,0 +1,26 @@
+{% load i18n seo %}
+<!-- ===== TOP BAR ===== -->
+<header class="topbar" id="topbar">
+  <div class="shell topbar__in">
+    <a href="{% url 'home:page' %}#ana" class="logo">
+      <span class="logo__mark">{{ site_settings.logo_mark_text }}</span>
+      <span class="logo__txt">{{ site_settings.site_name|upper }}<small>Event Production</small></span>
+    </a>
+    {# Header goes to standalone pages; the dock keeps homepage scroll navigation. #}
+    <nav class="topnav">
+      <a href="{% url 'about:page' %}">{% trans "Haqqımızda" %}</a>
+      <a href="{% url 'equipment:page' %}">{% trans "Avadanlıqlar" %}</a>
+      <a href="{% url 'projects:list' %}">{% trans "Layihələr" %}</a>
+      <a href="{% url 'team:list' %}">{% trans "Komanda" %}</a>
+      <a href="{% url 'contact:page' %}">{% trans "Əlaqə" %}</a>
+      {# Language switcher — reuses .topnav styling so it reads as another nav item. #}
+      {% for code, name in LANGUAGES %}
+        {% if code != LANGUAGE_CODE %}
+          {% alternate_url code as switch_url %}
+          <a href="{{ switch_url }}" hreflang="{{ code }}" aria-label="{{ name }}">{{ code|upper }}</a>
+        {% endif %}
+      {% endfor %}
+    </nav>
+    <a href="{% url 'contact:page' %}" class="btn btn--grad btn--sm">{% trans "Layihə başlat" %} <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
+  </div>
+</header>

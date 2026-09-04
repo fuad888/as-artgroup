@@ -1,0 +1,235 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-04 22:55+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: contact/templates/contact/_section.html:6 templates/includes/dock.html:10
+#: templates/includes/footer.html:47 templates/includes/topbar.html:14
+msgid "Əlaqə"
+msgstr "Əlaqə"
+
+#: contact/templates/contact/_section.html:7
+msgid "Növbəti şounuzu"
+msgstr "Növbəti şounuzu"
+
+#: contact/templates/contact/_section.html:7
+msgid "birlikdə quraq"
+msgstr "birlikdə quraq"
+
+#: contact/templates/contact/_section.html:8
+msgid ""
+"Qısa brifinizi göndərin — 24 saat ərzində texniki rayder və təxmini büdcə "
+"ilə qayıdaq."
+msgstr "Qısa brifinizi göndərin — 24 saat ərzində texniki rayder və təxmini büdcə ilə qayıdaq."
+
+#: contact/templates/contact/_section.html:16
+msgid "Zəhmət olmasa bütün sahələri doldurun."
+msgstr "Zəhmət olmasa bütün sahələri doldurun."
+
+#: contact/templates/contact/_section.html:17
+msgid "Email ünvanı düzgün görünmür."
+msgstr "Email ünvanı düzgün görünmür."
+
+#: contact/templates/contact/_section.html:18
+msgid "Telefon nömrəsi düzgün görünmür. Nümunə: +994 50 000 00 00"
+msgstr "Telefon nömrəsi düzgün görünmür. Nümunə: +994 50 000 00 00"
+
+#: contact/templates/contact/_section.html:19
+msgid "Göndərilir..."
+msgstr "Göndərilir..."
+
+#: contact/templates/contact/_section.html:20
+#, python-brace-format
+msgid ""
+"Təşəkkürlər, {name}! Sorğunuz qeydə alındı — 24 saat ərzində sizinlə əlaqə "
+"saxlayacağıq."
+msgstr "Təşəkkürlər, {name}! Sorğunuz qeydə alındı — 24 saat ərzində sizinlə əlaqə saxlayacağıq."
+
+#: contact/templates/contact/_section.html:21
+msgid "Çox sayda sorğu göndərildi. Bir qədər sonra yenidən cəhd edin."
+msgstr "Çox sayda sorğu göndərildi. Bir qədər sonra yenidən cəhd edin."
+
+#: contact/templates/contact/_section.html:22
+msgid "Göndərmək mümkün olmadı. Zəhmət olmasa yenidən cəhd edin."
+msgstr "Göndərmək mümkün olmadı. Zəhmət olmasa yenidən cəhd edin."
+
+#: contact/templates/contact/_section.html:23
+msgid "Şəbəkə xətası. İnternet bağlantınızı yoxlayın."
+msgstr "Şəbəkə xətası. İnternet bağlantınızı yoxlayın."
+
+#: contact/templates/contact/_section.html:26
+msgid "Ad və Soyad"
+msgstr "Ad və Soyad"
+
+#: contact/templates/contact/_section.html:27
+msgid "Adınızı yazın"
+msgstr "Adınızı yazın"
+
+#: contact/templates/contact/_section.html:31
+#: contact/templates/contact/_section.html:68
+msgid "Email"
+msgstr "Email"
+
+#: contact/templates/contact/_section.html:35
+#: contact/templates/contact/_section.html:64
+msgid "Telefon"
+msgstr "Telefon"
+
+#: contact/templates/contact/_section.html:40
+msgid "Mesaj"
+msgstr "Mesaj"
+
+#: contact/templates/contact/_section.html:41
+msgid "Tədbirin növü, tarixi, məkanı və gözlənilən qonaq sayı..."
+msgstr "Tədbirin növü, tarixi, məkanı və gözlənilən qonaq sayı..."
+
+#: contact/templates/contact/_section.html:44
+msgid "Göndər"
+msgstr "Göndər"
+
+#: contact/templates/contact/_section.html:46
+msgid ""
+"Göndərməklə məlumatlarınızın yalnız bu sorğu üçün istifadəsinə razılıq "
+"verirsiniz."
+msgstr "Göndərməklə məlumatlarınızın yalnız bu sorğu üçün istifadəsinə razılıq verirsiniz."
+
+#: contact/templates/contact/_section.html:47
+msgid ""
+"Təşəkkürlər! Sorğunuz qeydə alındı — komandamız tezliklə sizinlə əlaqə "
+"saxlayacaq."
+msgstr "Təşəkkürlər! Sorğunuz qeydə alındı — komandamız tezliklə sizinlə əlaqə saxlayacaq."
+
+#: contact/templates/contact/_section.html:53
+msgid "Bakı xəritəsi"
+msgstr "Bakı xəritəsi"
+
+#: contact/templates/contact/_section.html:60
+msgid "Ofis"
+msgstr "Ofis"
+
+#: contact/templates/contact/_section.html:72
+msgid "İş saatları"
+msgstr "İş saatları"
+
+#: equipment/templates/equipment/_section.html:6 templates/includes/dock.html:7
+#: templates/includes/footer.html:34 templates/includes/topbar.html:11
+msgid "Avadanlıqlar"
+msgstr "Avadanlıqlar"
+
+#: equipment/templates/equipment/_section.html:7
+msgid "Texnika"
+msgstr "Texnika"
+
+#: equipment/templates/equipment/_section.html:7
+msgid "şouyu daşıyır"
+msgstr "şouyu daşıyır"
+
+#: equipment/templates/equipment/_section.html:8
+msgid ""
+"Öz parkımız, öz mühəndislərimiz. Kirayə, quraşdırma və tədbir boyu operator "
+"dəstəyi bir paketdə."
+msgstr "Öz parkımız, öz mühəndislərimiz. Kirayə, quraşdırma və tədbir boyu operator dəstəyi bir paketdə."
+
+#: home/templates/home/_hero.html:50
+msgid "Aşağı sürüşdürün"
+msgstr "Aşağı sürüşdürün"
+
+#: projects/templates/projects/_section.html:6
+#: projects/templates/projects/list.html:8 templates/includes/dock.html:8
+#: templates/includes/footer.html:35 templates/includes/topbar.html:12
+msgid "Layihələr"
+msgstr "Layihələr"
+
+#: projects/templates/projects/_section.html:7
+#: projects/templates/projects/list.html:9
+msgid "Keçirdiyimiz"
+msgstr "Keçirdiyimiz"
+
+#: projects/templates/projects/_section.html:7
+#: projects/templates/projects/list.html:9
+msgid "şoular"
+msgstr "şoular"
+
+#: projects/templates/projects/_section.html:8
+#: projects/templates/projects/list.html:10
+msgid ""
+"Konsertlərdən korporativ mərasimlərə — miqyasından asılı olmayaraq eyni "
+"texniki dəqiqlik."
+msgstr "Konsertlərdən korporativ mərasimlərə — miqyasından asılı olmayaraq eyni texniki dəqiqlik."
+
+#: projects/templates/projects/detail.html:20
+msgid "Bütün layihələr"
+msgstr "Bütün layihələr"
+
+#: projects/templates/projects/detail.html:21
+msgid "Bizimlə əlaqə"
+msgstr "Bizimlə əlaqə"
+
+#: team/templates/team/_section.html:6 team/templates/team/list.html:8
+msgid "Əməkdaşlar"
+msgstr "Əməkdaşlar"
+
+#: team/templates/team/_section.html:7 team/templates/team/list.html:9
+msgid "Səhnə arxasındakı"
+msgstr "Səhnə arxasındakı"
+
+#: team/templates/team/_section.html:7 team/templates/team/list.html:9
+msgid "komanda"
+msgstr "komanda"
+
+#: team/templates/team/_section.html:8 team/templates/team/list.html:10
+msgid ""
+"Prodakşn menecerləri, işıq və səs mühəndisləri, kreativ direktorlar və "
+"spikerlər."
+msgstr "Prodakşn menecerləri, işıq və səs mühəndisləri, kreativ direktorlar və spikerlər."
+
+#: team/templates/team/detail.html:23
+msgid "Bütün komanda"
+msgstr "Bütün komanda"
+
+#: templates/includes/dock.html:4
+msgid "Sürətli naviqasiya"
+msgstr "Sürətli naviqasiya"
+
+#: templates/includes/dock.html:5 templates/includes/footer.html:32
+msgid "Ana səhifə"
+msgstr "Ana səhifə"
+
+#: templates/includes/dock.html:6 templates/includes/footer.html:33
+#: templates/includes/topbar.html:10
+msgid "Haqqımızda"
+msgstr "Haqqımızda"
+
+#: templates/includes/dock.html:9 templates/includes/footer.html:36
+#: templates/includes/topbar.html:13
+msgid "Komanda"
+msgstr "Komanda"
+
+#: templates/includes/footer.html:31
+msgid "Naviqasiya"
+msgstr "Naviqasiya"
+
+#: templates/includes/footer.html:40
+msgid "Xidmətlər"
+msgstr "Xidmətlər"
+
+#: templates/includes/footer.html:51
+msgid "Brif göndər"
+msgstr "Brif göndər"
+
+#: templates/includes/topbar.html:23
+msgid "Layihə başlat"
+msgstr "Layihə başlat"

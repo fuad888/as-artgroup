@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{# Single-scroll homepage: each section partial is owned by its own app. #}
+{% block content %}
+{% include "home/_hero.html" %}
+{% include "home/_marquee.html" %}
+{% include "about/_section.html" %}
+{% include "equipment/_section.html" %}
+{% include "projects/_section.html" %}
+{% include "team/_section.html" %}
+{% include "contact/_section.html" %}
+{% endblock %}

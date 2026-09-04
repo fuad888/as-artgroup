@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<section class="section">
+  <span class="shape cube f-a" style="--c1:#FF3D9A;--c2:#FFD84D;width:44px;height:44px;top:10%;right:8%"></span>
+  <div class="shell">
+    <div class="sec-head rv">
+      <span class="eyebrow">{{ member.role }}</span>
+      <h2>{{ member.name }}</h2>
+    </div>
+
+    <div class="about__grid">
+      <div class="about__media rv">
+        <img loading="lazy" decoding="async" src="{{ member.display_photo_url }}" alt="{{ member.name }}">
+      </div>
+      <div class="about__text rv" data-d="1">
+        {% if member.bio %}<p class="lead">{{ member.bio }}</p>{% endif %}
+        <div class="member__soc" style="margin-top:24px">
+          <a href="{{ member.linkedin_url|default:'#' }}" aria-label="LinkedIn"><svg><use href="#i-in"/></svg></a>
+          <a href="{{ member.instagram_url|default:'#' }}" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:32px">
+          <a href="{% url 'team:list' %}" class="btn btn--ghost">{% trans "Bütün komanda" %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

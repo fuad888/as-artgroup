@@ -1,0 +1,39 @@
+{% load i18n seo %}
+{# Per-page overrides: set seo_title / seo_description / seo_image / seo_type in the view context. #}
+{% firstof seo_title site_settings.site_tagline site_settings.site_name as page_title %}
+{% firstof seo_description site_settings.meta_description as page_description %}
+{% firstof seo_image seo_settings.display_og_image_url as page_image %}
+{% canonical_url as page_url %}
+
+<title>{{ page_title }}{% if seo_settings.title_suffix and page_title != seo_settings.title_suffix %} | {{ seo_settings.title_suffix }}{% endif %}</title>
+<meta name="description" content="{{ page_description }}">
+<link rel="canonical" href="{{ page_url }}">
+
+{% if not seo_settings.allow_indexing %}<meta name="robots" content="noindex, nofollow">{% endif %}
+
+{% for code, name in LANGUAGES %}
+  {% alternate_url code as alt_url %}
+  <link rel="alternate" hreflang="{{ code }}" href="{{ request.scheme }}://{{ request.get_host }}{{ alt_url }}">
+{% endfor %}
+{% alternate_url 'az' as default_url %}
+<link rel="alternate" hreflang="x-default" href="{{ request.scheme }}://{{ request.get_host }}{{ default_url }}">
+
+<meta property="og:type" content="{% firstof seo_type 'website' %}">
+<meta property="og:site_name" content="{{ site_settings.site_name }}">
+<meta property="og:title" content="{{ page_title }}">
+<meta property="og:description" content="{{ page_description }}">
+<meta property="og:url" content="{{ page_url }}">
+<meta property="og:locale" content="{% if LANGUAGE_CODE == 'ru' %}ru_RU{% else %}az_AZ{% endif %}">
+<meta property="og:locale:alternate" content="{% if LANGUAGE_CODE == 'ru' %}az_AZ{% else %}ru_RU{% endif %}">
+{% if page_image %}<meta property="og:image" content="{{ page_image }}">{% endif %}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title }}">
+<meta name="twitter:description" content="{{ page_description }}">
+{% if page_image %}<meta name="twitter:image" content="{{ page_image }}">{% endif %}
+
+{% if seo_settings.google_site_verification %}<meta name="google-site-verification" content="{{ seo_settings.google_site_verification }}">{% endif %}
+{% if seo_settings.yandex_verification %}<meta name="yandex-verification" content="{{ seo_settings.yandex_verification }}">{% endif %}
+
+{% organization_schema as schema %}
+{% if schema %}<script type="application/ld+json">{{ schema }}</script>{% endif %}

@@ -1,0 +1,46 @@
+{% load i18n %}
+<section class="section" id="haqqimizda">
+  <span class="shape orb f-b" style="--c1:#2E7BFF;--c2:#8B5CF6;width:86px;height:86px;top:8%;left:-40px"></span>
+  <div class="shell">
+    <div class="about__grid">
+      <div class="about__media rv">
+        <img loading="lazy" decoding="async" src="{{ about.display_image_url }}"
+             alt="{{ about.badge_title }}">
+        <div class="about__badge">
+          <b>{{ about.badge_title }}</b>
+          <span>{{ about.badge_subtitle }}</span>
+        </div>
+      </div>
+
+      <div class="about__text rv" data-d="1">
+        <span class="eyebrow">{{ about.eyebrow }}</span>
+        <h2 style="font-size:clamp(2rem,4.6vw,3.4rem);margin:22px 0 22px">
+          {{ about.heading }} <span class="grad-text">{{ about.heading_accent }}</span>
+        </h2>
+        <p class="lead">
+          {{ about.lead }}
+        </p>
+        <p>
+          {{ about.body_paragraph_1 }}
+        </p>
+        <p>
+          {{ about.body_paragraph_2 }}
+        </p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:32px">
+          <a href="{% url 'equipment:page' %}" class="btn btn--ghost">{{ about.cta_primary_label }}</a>
+          <a href="{% url 'home:page' %}#elaqe" class="btn btn--grad">{{ about.cta_secondary_label }} <svg width="15" height="15"><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats">
+      {% for stat in stats %}
+      <div class="stat rv" data-d="{{ forloop.counter }}" style="--g:var(--grad-{{ stat.gradient_key }})">
+        <div class="stat__n"><span class="count" data-to="{{ stat.number }}">0</span>{% if stat.suffix %}<span class="grad-text">{{ stat.suffix }}</span>{% endif %}</div>
+        <div class="stat__l">{{ stat.label }}</div>
+        <p class="stat__d">{{ stat.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

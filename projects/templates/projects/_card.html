@@ -1,0 +1,6 @@
+{# Shared by the homepage teaser and the full listing page. #}
+<a href="{{ project.get_absolute_url }}" class="proj-card rv" data-d="{{ delay }}" style="--g:var(--grad-{{ project.gradient_key }})">
+  <img loading="lazy" decoding="async" src="{{ project.display_image_url }}" alt="{{ project.title }}">
+  <span class="proj-card__arrow"><svg><use href="#i-arrow"/></svg></span>
+  <div class="proj-card__body"><span class="proj-card__cat">{{ project.category.name }}</span><h3>{{ project.title }}</h3><div class="proj-card__meta"><span>{{ project.meta_primary }}</span><span>{{ project.meta_secondary }}</span></div></div>
+</a>

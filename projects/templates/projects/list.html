@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<section class="section" id="layiheler">
+  <span class="shape ring f-c" style="--c1:#22D3EE;--c2:#8B5CF6;width:120px;height:120px;top:6%;left:2%"></span>
+  <div class="shell">
+    <div class="sec-head rv">
+      <span class="eyebrow">{% trans "Layihələr" %}</span>
+      <h2>{% trans "Keçirdiyimiz" %} <span class="grad-text">{% trans "şoular" %}</span></h2>
+      <p>{% trans "Konsertlərdən korporativ mərasimlərə — miqyasından asılı olmayaraq eyni texniki dəqiqlik." %}</p>
+    </div>
+
+    <div class="proj">
+      {% for project in projects %}
+        {% cycle '1' '2' '3' as delay silent %}
+        {% include "projects/_card.html" with project=project delay=delay %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

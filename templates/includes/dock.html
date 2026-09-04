@@ -1,0 +1,14 @@
+{% load i18n %}
+{# Absolute anchors (home URL + hash) so the dock also works from detail pages. #}
+<!-- ===== FLOATING DOCK ===== -->
+<nav class="dock" aria-label="{% trans 'Sürətli naviqasiya' %}">
+  <a href="{% url 'home:page' %}#ana" data-tip="{% trans 'Ana səhifə' %}" class="is-active" aria-label="{% trans 'Ana səhifə' %}"><svg><use href="#i-home"/></svg></a>
+  <a href="{% url 'home:page' %}#haqqimizda" data-tip="{% trans 'Haqqımızda' %}" aria-label="{% trans 'Haqqımızda' %}"><svg><use href="#i-info"/></svg></a>
+  <a href="{% url 'home:page' %}#avadanliq" data-tip="{% trans 'Avadanlıqlar' %}" aria-label="{% trans 'Avadanlıqlar' %}"><svg><use href="#i-light"/></svg></a>
+  <a href="{% url 'home:page' %}#layiheler" data-tip="{% trans 'Layihələr' %}" aria-label="{% trans 'Layihələr' %}"><svg><use href="#i-grid"/></svg></a>
+  <a href="{% url 'home:page' %}#komanda" data-tip="{% trans 'Komanda' %}" aria-label="{% trans 'Komanda' %}"><svg><use href="#i-users"/></svg></a>
+  <a href="{% url 'home:page' %}#elaqe" data-tip="{% trans 'Əlaqə' %}" aria-label="{% trans 'Əlaqə' %}"><svg><use href="#i-mail"/></svg></a>
+  <span class="sep" aria-hidden="true"></span>
+  <a href="{{ site_settings.instagram_url|default:'https://instagram.com' }}" target="_blank" rel="noopener" class="soc" data-tip="Instagram" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a>
+  <a href="{{ site_settings.facebook_url|default:'https://facebook.com' }}" target="_blank" rel="noopener" class="soc" data-tip="Facebook" aria-label="Facebook"><svg><use href="#i-fb"/></svg></a>
+</nav>

@@ -1,0 +1,80 @@
+{% load i18n %}
+<section class="section" id="elaqe">
+  <span class="shape orb f-b" style="--c1:#8B5CF6;--c2:#2E7BFF;width:110px;height:110px;bottom:14%;right:-30px"></span>
+  <div class="shell">
+    <div class="sec-head rv">
+      <span class="eyebrow">{% trans "Əlaqə" %}</span>
+      <h2>{% trans "Növbəti şounuzu" %} <span class="grad-text">{% trans "birlikdə quraq" %}</span></h2>
+      <p>{% trans "Qısa brifinizi göndərin — 24 saat ərzində texniki rayder və təxmini büdcə ilə qayıdaq." %}</p>
+    </div>
+
+    <div class="contact__grid">
+      <div class="panel rv" data-d="1">
+        {# JS posts to /api/v1/contact/messages/; action/method keep it working without JS. #}
+        <form id="contactForm" action="{% url 'contact:submit' %}" method="post" novalidate
+              data-endpoint="/api/v1/contact/messages/"
+              data-msg-required="{% trans 'Zəhmət olmasa bütün sahələri doldurun.' %}"
+              data-msg-email="{% trans 'Email ünvanı düzgün görünmür.' %}"
+              data-msg-phone="{% trans 'Telefon nömrəsi düzgün görünmür. Nümunə: +994 50 000 00 00' %}"
+              data-msg-sending="{% trans 'Göndərilir...' %}"
+              data-msg-success="{% trans 'Təşəkkürlər, {name}! Sorğunuz qeydə alındı — 24 saat ərzində sizinlə əlaqə saxlayacağıq.' %}"
+              data-msg-throttled="{% trans 'Çox sayda sorğu göndərildi. Bir qədər sonra yenidən cəhd edin.' %}"
+              data-msg-error="{% trans 'Göndərmək mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.' %}"
+              data-msg-offline="{% trans 'Şəbəkə xətası. İnternet bağlantınızı yoxlayın.' %}">
+          {% csrf_token %}
+          <div class="field">
+            <label for="ad">{% trans "Ad və Soyad" %}</label>
+            <input id="ad" name="name" type="text" autocomplete="name" placeholder="{% trans 'Adınızı yazın' %}" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="email">{% trans "Email" %}</label>
+              <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="ad@sirket.az" required>
+            </div>
+            <div class="field">
+              <label for="telefon">{% trans "Telefon" %}</label>
+              <input id="telefon" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+994 50 000 00 00" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="mesaj">{% trans "Mesaj" %}</label>
+            <textarea id="mesaj" name="message" placeholder="{% trans 'Tədbirin növü, tarixi, məkanı və gözlənilən qonaq sayı...' %}" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--grad" style="width:100%">
+            {% trans "Göndər" %} <svg width="15" height="15"><use href="#i-arrow"/></svg>
+          </button>
+          <p class="form-note">{% trans "Göndərməklə məlumatlarınızın yalnız bu sorğu üçün istifadəsinə razılıq verirsiniz." %}</p>
+          <div class="form-ok" id="formOk">{% trans "Təşəkkürlər! Sorğunuz qeydə alındı — komandamız tezliklə sizinlə əlaqə saxlayacaq." %}</div>
+        </form>
+      </div>
+
+      <div class="contact__side rv" data-d="2">
+        <div class="map">
+          <iframe title="{{ site_settings.site_name }} — {% trans 'Bakı xəritəsi' %}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="{{ site_settings.map_embed_url }}"></iframe>
+        </div>
+        <div class="panel" style="padding:28px 32px">
+          <div class="info-list">
+            <div class="info">
+              <span class="info__ico" style="color:#FF3D9A"><svg><use href="#i-pin"/></svg></span>
+              {# data-map-query lets site.js switch to a geo: URI on Android. #}
+              <span><b>{% trans "Ofis" %}</b><span><a href="{{ site_settings.maps_href }}" class="js-map-link" data-map-query="{{ site_settings.map_destination }}" target="_blank" rel="noopener">{{ site_settings.address_line }}</a></span><small>{{ site_settings.address_note }}</small></span>
+            </div>
+            <div class="info">
+              <span class="info__ico" style="color:#22D3EE"><svg><use href="#i-phone"/></svg></span>
+              <span><b>{% trans "Telefon" %}</b><span><a href="{{ site_settings.phone_href }}">{{ site_settings.phone }}</a></span><small><a href="{{ site_settings.whatsapp_href }}" target="_blank" rel="noopener">WhatsApp</a> · <a href="{{ site_settings.office_phone_href }}">{{ site_settings.office_phone }}</a> ({% trans "ofis" %})</small></span>
+            </div>
+            <div class="info">
+              <span class="info__ico" style="color:#FFD84D"><svg><use href="#i-mail"/></svg></span>
+              <span><b>{% trans "Email" %}</b><span><a href="{{ site_settings.email_href }}">{{ site_settings.email }}</a></span><small><a href="{{ site_settings.booking_email_href }}">{{ site_settings.booking_email }}</a></small></span>
+            </div>
+            <div class="info">
+              <span class="info__ico" style="color:#8B5CF6"><svg><use href="#i-clock"/></svg></span>
+              <span><b>{% trans "İş saatları" %}</b><span>{{ site_settings.working_hours_line }}</span><small>{{ site_settings.working_hours_note }}</small></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

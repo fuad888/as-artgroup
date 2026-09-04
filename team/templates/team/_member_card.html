@@ -1,0 +1,9 @@
+{# Shared by the homepage teaser and the full team page. #}
+<article class="member rv" data-d="{{ delay }}" style="--g:var(--grad-{{ gradient }})">
+  {# Photo stays unwrapped: .member__ph img needs height:100%, which an inline link breaks. #}
+  <div class="member__ph"><img loading="lazy" decoding="async" src="{{ member.display_photo_url }}" alt="{{ member.name }}"></div>
+  <div class="member__body">
+    <h3><a href="{{ member.get_absolute_url }}">{{ member.name }}</a></h3><span>{{ member.role }}</span>
+    <div class="member__soc"><a href="{{ member.linkedin_url|default:'#' }}" aria-label="LinkedIn"><svg><use href="#i-in"/></svg></a><a href="{{ member.instagram_url|default:'#' }}" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a></div>
+  </div>
+</article>

@@ -1,0 +1,66 @@
+{% load i18n %}
+<!-- ===== HERO ===== -->
+<section class="hero" id="ana">
+  <div class="hero__bg">
+    <img src="{{ hero.display_image_url }}"
+         alt="{{ hero.heading_line1 }} {{ hero.heading_line2 }} {{ hero.heading_line3 }}">
+  </div>
+
+  <div class="hero__waves" aria-hidden="true">
+    <svg viewBox="0 0 1440 300" preserveAspectRatio="none" style="height:290px">
+      <defs>
+        <linearGradient id="wg1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#22D3EE" stop-opacity=".85"/><stop offset="45%" stop-color="#8B5CF6" stop-opacity=".7"/><stop offset="100%" stop-color="#FF3D9A" stop-opacity=".85"/>
+        </linearGradient>
+        <linearGradient id="wg2" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#FF7A2F" stop-opacity=".7"/><stop offset="55%" stop-color="#FF3D9A" stop-opacity=".55"/><stop offset="100%" stop-color="#2E7BFF" stop-opacity=".8"/>
+        </linearGradient>
+        <linearGradient id="wg3" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#FFD84D" stop-opacity=".6"/><stop offset="100%" stop-color="#A855F7" stop-opacity=".6"/>
+        </linearGradient>
+      </defs>
+      <path class="wave-path w1" fill="none" stroke="url(#wg1)" stroke-width="2.5" d="M-120 190 C 140 90, 320 250, 600 160 S 1080 60, 1380 175 S 1620 220, 1700 150"/>
+      <path class="wave-path w2" fill="none" stroke="url(#wg2)" stroke-width="1.6" d="M-120 232 C 200 150, 380 292, 700 205 S 1140 120, 1420 226 S 1660 260, 1700 200"/>
+      <path class="wave-path w3" fill="none" stroke="url(#wg3)" stroke-width="1.2" d="M-120 268 C 260 210, 460 316, 780 250 S 1200 190, 1460 268 S 1680 296, 1720 250"/>
+      <path fill="url(#wg1)" opacity=".07" d="M-120 190 C 140 90, 320 250, 600 160 S 1080 60, 1380 175 S 1620 220, 1700 150 L1700 300 L-120 300 Z"/>
+    </svg>
+  </div>
+
+  <span class="shape orb f-a" style="--c1:#FF3D9A;--c2:#8B5CF6;width:120px;height:120px;top:16%;right:9%"></span>
+  <span class="shape pyr f-b" style="--c1:#22D3EE;--c2:#2E7BFF;width:74px;height:66px;top:60%;right:20%"></span>
+  <span class="shape ring f-c" style="--c1:#FFD84D;--c2:#FF7A2F;width:150px;height:150px;top:74%;right:4%"></span>
+  <span class="shape cube f-b" style="--c1:#8B5CF6;--c2:#2E7BFF;width:38px;height:38px;top:26%;left:52%"></span>
+
+  <div class="hero__in shell">
+    <div class="hero__grid">
+      <div>
+        <span class="eyebrow rv">{{ hero.eyebrow }}</span>
+        <h1 class="rv" data-d="1">
+          <span class="grad-text">{{ hero.heading_line1 }}</span>
+          <span class="l2">{{ hero.heading_line2 }}</span>
+          <span class="l2">{{ hero.heading_line3 }}</span>
+        </h1>
+        <p class="hero__lead rv" data-d="2">
+          {{ hero.lead }}
+        </p>
+        <div class="hero__cta rv" data-d="3">
+          <a href="#layiheler" class="btn btn--grad">{{ hero.cta_primary_label }} <svg width="15" height="15"><use href="#i-arrow"/></svg></a>
+          <a href="#haqqimizda" class="btn btn--ghost"><svg width="16" height="16"><use href="#i-play"/></svg> {{ hero.cta_secondary_label }}</a>
+        </div>
+        <div class="scroll-hint rv" data-d="4"><i></i> {% trans "Aşağı sürüşdürün" %}</div>
+      </div>
+
+      <aside class="hero__side rv" data-d="3">
+        <div class="hero-card">
+          {% for feature in hero_features %}
+          <div class="hero-card__row">
+            {# Icon colour is tied to the icon itself so rows keep their original palette. #}
+            <span class="hero-card__ico" style="color:{% if feature.icon_key == 'light' %}#FFD84D{% elif feature.icon_key == 'sound' %}#22D3EE{% else %}#FF3D9A{% endif %}"><svg><use href="#i-{{ feature.icon_key }}"/></svg></span>
+            <span><b>{{ feature.title }}</b><span>{{ feature.description }}</span></span>
+          </div>
+          {% endfor %}
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

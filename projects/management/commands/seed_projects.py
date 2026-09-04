@@ -1,0 +1,186 @@
+from django.core.management.base import BaseCommand
+
+from projects.models import Project, ProjectCategory
+
+CATEGORIES = [
+    {"slug": "konsert", "name_az": "Konsert", "name_ru": "Концерт"},
+    {"slug": "sou", "name_az": "Şou", "name_ru": "Шоу"},
+    {"slug": "konfrans", "name_az": "Konfrans", "name_ru": "Конференция"},
+    {"slug": "merasim", "name_az": "Mərasim", "name_ru": "Церемония"},
+    {"slug": "festival", "name_az": "Festival", "name_ru": "Фестиваль"},
+    {"slug": "gorus", "name_az": "Görüş", "name_ru": "Встреча"},
+    {"slug": "sergi", "name_az": "Sərgi", "name_ru": "Выставка"},
+]
+
+PROJECTS = [
+    {
+        "slug": "yay-sehnesi-acilisi",
+        "title_az": "Yay Səhnəsi Açılışı",
+        "title_ru": "Открытие летней сцены",
+        "category": "konsert",
+        "image_url": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=900&q=80",
+        "meta_primary_az": "Bakı Bulvarı",
+        "meta_primary_ru": "Бакинский бульвар",
+        "meta_secondary_az": "8 000 qonaq",
+        "meta_secondary_ru": "8 000 гостей",
+        "description_az": "Bakı Bulvarında açıq hava konsert səhnəsinin böyük açılış şousu — tam işıq, səs və prodakşn.",
+        "description_ru": "Большое открытие концертной сцены на Бакинском бульваре — полный свет, звук и продакшн.",
+        "gradient_key": "warm",
+        "order": 1,
+    },
+    {
+        "slug": "neon-nights-festival",
+        "title_az": "Neon Nights Festival",
+        "title_ru": "Neon Nights Festival",
+        "category": "sou",
+        "image_url": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=900&q=80",
+        "meta_primary_az": "Lazer & İşıq",
+        "meta_primary_ru": "Лазер и свет",
+        "meta_secondary_az": "2 gün",
+        "meta_secondary_ru": "2 дня",
+        "description_az": "İki günlük lazer və işıq şousu — proqramlaşdırılan effektlər və atmosfer dizaynı.",
+        "description_ru": "Двухдневное лазерное и световое шоу — программируемые эффекты и атмосферный дизайн.",
+        "gradient_key": "cool",
+        "order": 2,
+    },
+    {
+        "slug": "caspian-business-forum",
+        "title_az": "Caspian Business Forum",
+        "title_ru": "Caspian Business Forum",
+        "category": "konfrans",
+        "image_url": "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=900&q=80",
+        "meta_primary_az": "LED Wall",
+        "meta_primary_ru": "LED-экран",
+        "meta_secondary_az": "1 200 iştirakçı",
+        "meta_secondary_ru": "1 200 участников",
+        "description_az": "Böyük korporativ konfrans — LED ekran, sinxron tərcümə sistemi və tam zal qurulumu.",
+        "description_ru": "Крупная корпоративная конференция — LED-экран, система синхронного перевода и полная компоновка зала.",
+        "gradient_key": "hot",
+        "order": 3,
+    },
+    {
+        "slug": "arena-live-session",
+        "title_az": "Arena Live Session",
+        "title_ru": "Arena Live Session",
+        "category": "konsert",
+        "image_url": "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&w=900&q=80",
+        "meta_primary_az": "Line Array",
+        "meta_primary_ru": "Line Array",
+        "meta_secondary_az": "Canlı yayım",
+        "meta_secondary_ru": "Прямая трансляция",
+        "description_az": "Line-array səs sistemi ilə canlı yayımlanan arena konserti.",
+        "description_ru": "Концерт на арене с системой line-array и прямой трансляцией.",
+        "gradient_key": "cool",
+        "order": 4,
+    },
+    {
+        "slug": "gala-awards-night",
+        "title_az": "Gala Awards Night",
+        "title_ru": "Gala Awards Night",
+        "category": "merasim",
+        "image_url": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=900&q=80",
+        "meta_primary_az": "Səhnə & Işıq",
+        "meta_primary_ru": "Сцена и свет",
+        "meta_secondary_az": "Korporativ",
+        "meta_secondary_ru": "Корпоратив",
+        "description_az": "Korporativ mükafat mərasimi — səhnə dizaynı, işıq şousu və konfeti finalı.",
+        "description_ru": "Корпоративная церемония награждения — дизайн сцены, световое шоу и финал с конфетти.",
+        "gradient_key": "warm",
+        "order": 5,
+    },
+    {
+        "slug": "solo-tour-baki",
+        "title_az": "Solo Tour — Bakı",
+        "title_ru": "Сольный тур — Баку",
+        "category": "konsert",
+        "image_url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=80",
+        "meta_primary_az": "Tam prodakşn",
+        "meta_primary_ru": "Полный продакшн",
+        "meta_secondary_az": "Turne",
+        "meta_secondary_ru": "Тур",
+        "description_az": "Solo ifaçının Bakı dayanacağı — tam prodakşn dəstəyi ilə turne konserti.",
+        "description_ru": "Бакинская остановка сольного тура — концерт с полной продакшн-поддержкой.",
+        "gradient_key": "hot",
+        "order": 6,
+    },
+    {
+        "slug": "partner-meeting-day",
+        "title_az": "Partner Meeting Day",
+        "title_ru": "Partner Meeting Day",
+        "category": "gorus",
+        "image_url": "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=900&q=80",
+        "meta_primary_az": "Zal quruluşu",
+        "meta_primary_ru": "Компоновка зала",
+        "meta_secondary_az": "Hibrid",
+        "meta_secondary_ru": "Гибридный формат",
+        "description_az": "Hibrid formatda partnyor görüşü — zal quruluşu və onlayn yayım inteqrasiyası.",
+        "description_ru": "Встреча партнёров в гибридном формате — компоновка зала и интеграция онлайн-трансляции.",
+        "gradient_key": "hot",
+        "order": 7,
+    },
+    {
+        "slug": "design-expo-baku",
+        "title_az": "Design Expo Baku",
+        "title_ru": "Design Expo Baku",
+        "category": "sergi",
+        "image_url": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&q=80",
+        "meta_primary_az": "Stend & Işıq",
+        "meta_primary_ru": "Стенд и свет",
+        "meta_secondary_az": "4 gün",
+        "meta_secondary_ru": "4 дня",
+        "description_az": "4 günlük dizayn sərgisi — stend qurulumu və akvent işıqlandırma həlləri.",
+        "description_ru": "Четырёхдневная дизайн-выставка — монтаж стендов и акцентное освещение.",
+        "gradient_key": "cool",
+        "order": 8,
+    },
+    {
+        "slug": "caspian-beats-open-air",
+        "title_az": "Caspian Beats Open Air",
+        "title_ru": "Caspian Beats Open Air",
+        "category": "festival",
+        "image_url": "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=900&q=80",
+        "meta_primary_az": "Açıq hava",
+        "meta_primary_ru": "Открытая площадка",
+        "meta_secondary_az": "12 000 qonaq",
+        "meta_secondary_ru": "12 000 гостей",
+        "description_az": "İrimiqyaslı açıq hava musiqi festivalı — çoxsəhnəli quruluş və tam texniki dəstək.",
+        "description_ru": "Крупный музыкальный фестиваль под открытым небом — мультисценическая структура и полная техническая поддержка.",
+        "gradient_key": "warm",
+        "order": 9,
+    },
+]
+
+
+class Command(BaseCommand):
+    help = "Seed projects app: ProjectCategory + Project (from the original index.html copy)"
+
+    def handle(self, *args, **options):
+        categories = {}
+        for cat in CATEGORIES:
+            obj, _ = ProjectCategory.objects.update_or_create(
+                slug=cat["slug"],
+                defaults={"name_az": cat["name_az"], "name_ru": cat["name_ru"]},
+            )
+            categories[cat["slug"]] = obj
+
+        for p in PROJECTS:
+            Project.objects.update_or_create(
+                slug=p["slug"],
+                defaults={
+                    "title_az": p["title_az"],
+                    "title_ru": p["title_ru"],
+                    "category": categories[p["category"]],
+                    "image_url": p["image_url"],
+                    "meta_primary_az": p["meta_primary_az"],
+                    "meta_primary_ru": p["meta_primary_ru"],
+                    "meta_secondary_az": p["meta_secondary_az"],
+                    "meta_secondary_ru": p["meta_secondary_ru"],
+                    "description_az": p["description_az"],
+                    "description_ru": p["description_ru"],
+                    "is_featured": True,
+                    "gradient_key": p["gradient_key"],
+                    "order": p["order"],
+                },
+            )
+
+        self.stdout.write(self.style.SUCCESS("projects seeded"))

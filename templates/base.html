@@ -1,0 +1,31 @@
+{% load static i18n %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% include "includes/seo_meta.html" %}
+{% include "includes/analytics.html" %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+{% include "includes/analytics_body.html" %}
+
+{% include "includes/ambient.html" %}
+
+{% include "includes/svg_sprite.html" %}
+
+{% include "includes/dock.html" %}
+
+{% include "includes/topbar.html" %}
+
+{% block content %}{% endblock %}
+
+{% include "includes/footer.html" %}
+
+<script src="{% static 'js/site.js' %}" defer></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

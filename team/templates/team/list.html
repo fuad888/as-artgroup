@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<section class="section" id="komanda">
+  <span class="shape cube f-a" style="--c1:#FF3D9A;--c2:#FFD84D;width:44px;height:44px;top:10%;right:8%"></span>
+  <div class="shell">
+    <div class="sec-head rv">
+      <span class="eyebrow">{% trans "Əməkdaşlar" %}</span>
+      <h2>{% trans "Səhnə arxasındakı" %} <span class="grad-text">{% trans "komanda" %}</span></h2>
+      <p>{% trans "Prodakşn menecerləri, işıq və səs mühəndisləri, kreativ direktorlar və spikerlər." %}</p>
+    </div>
+
+    {# The full roster — no random subset here, unlike the homepage teaser. #}
+    <div class="team">
+      {% for member in members %}
+        {% cycle '1' '2' '3' '4' as delay silent %}
+        {% cycle 'cool' 'hot' 'warm' as gradient silent %}
+        {% include "team/_member_card.html" with member=member delay=delay gradient=gradient %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
