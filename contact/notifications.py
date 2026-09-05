@@ -18,6 +18,12 @@ def notification_recipients():
     return [site_email] if site_email else []
 
 
+def _single_line(value):
+    """A mail subject is one line by definition. Collapsing newlines both blocks
+    header injection and keeps the notification sendable instead of dropped."""
+    return " ".join(str(value or "").split())
+
+
 def build_notification(instance):
     admin_path = reverse("admin:contact_contactmessage_change", args=[instance.pk])
     body = "\n".join(
@@ -36,7 +42,7 @@ def build_notification(instance):
         ]
     )
     message = EmailMessage(
-        subject=f"Yeni əlaqə sorğusu — {instance.name}",
+        subject=_single_line(f"Yeni əlaqə sorğusu — {instance.name}"),
         body=body,
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=notification_recipients(),
