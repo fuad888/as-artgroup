@@ -1,0 +1,14 @@
+{% load i18n seo %}
+{# Single source for the desktop .topnav and the mobile menu, so they cannot drift. #}
+<a href="{% url 'about:page' %}">{% trans "Haqqımızda" %}</a>
+<a href="{% url 'equipment:page' %}">{% trans "Avadanlıqlar" %}</a>
+<a href="{% url 'projects:list' %}">{% trans "Layihələr" %}</a>
+<a href="{% url 'team:list' %}">{% trans "Komanda" %}</a>
+<a href="{% url 'contact:page' %}">{% trans "Əlaqə" %}</a>
+{# Language switcher — reuses the nav styling so it reads as another nav item. #}
+{% for code, name in LANGUAGES %}
+  {% if code != LANGUAGE_CODE %}
+    {% alternate_url code as switch_url %}
+    <a href="{{ switch_url }}" hreflang="{{ code }}" aria-label="{{ name }}">{{ code|upper }}</a>
+  {% endif %}
+{% endfor %}

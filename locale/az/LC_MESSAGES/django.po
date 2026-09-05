@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-04 22:55+0400\n"
+"POT-Creation-Date: 2026-09-06 02:17+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,8 +16,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: contact/templates/contact/_section.html:6 templates/includes/dock.html:10
-#: templates/includes/footer.html:47 templates/includes/topbar.html:14
+
+#: about/views.py:12 templates/includes/_nav_links.html:4
+#: templates/includes/dock.html:6 templates/includes/footer.html:33
+msgid "Haqqımızda"
+msgstr "Haqqımızda"
+
+#: contact/templates/contact/_section.html:6 contact/views.py:12
+#: templates/includes/_nav_links.html:8 templates/includes/dock.html:10
+#: templates/includes/footer.html:47
 msgid "Əlaqə"
 msgstr "Əlaqə"
 
@@ -33,7 +40,9 @@ msgstr "birlikdə quraq"
 msgid ""
 "Qısa brifinizi göndərin — 24 saat ərzində texniki rayder və təxmini büdcə "
 "ilə qayıdaq."
-msgstr "Qısa brifinizi göndərin — 24 saat ərzində texniki rayder və təxmini büdcə ilə qayıdaq."
+msgstr ""
+"Qısa brifinizi göndərin — 24 saat ərzində texniki rayder və təxmini büdcə "
+"ilə qayıdaq."
 
 #: contact/templates/contact/_section.html:16
 msgid "Zəhmət olmasa bütün sahələri doldurun."
@@ -56,7 +65,9 @@ msgstr "Göndərilir..."
 msgid ""
 "Təşəkkürlər, {name}! Sorğunuz qeydə alındı — 24 saat ərzində sizinlə əlaqə "
 "saxlayacağıq."
-msgstr "Təşəkkürlər, {name}! Sorğunuz qeydə alındı — 24 saat ərzində sizinlə əlaqə saxlayacağıq."
+msgstr ""
+"Təşəkkürlər, {name}! Sorğunuz qeydə alındı — 24 saat ərzində sizinlə əlaqə "
+"saxlayacağıq."
 
 #: contact/templates/contact/_section.html:21
 msgid "Çox sayda sorğu göndərildi. Bir qədər sonra yenidən cəhd edin."
@@ -79,12 +90,12 @@ msgid "Adınızı yazın"
 msgstr "Adınızı yazın"
 
 #: contact/templates/contact/_section.html:31
-#: contact/templates/contact/_section.html:68
+#: contact/templates/contact/_section.html:69
 msgid "Email"
 msgstr "Email"
 
 #: contact/templates/contact/_section.html:35
-#: contact/templates/contact/_section.html:64
+#: contact/templates/contact/_section.html:65
 msgid "Telefon"
 msgstr "Telefon"
 
@@ -104,28 +115,37 @@ msgstr "Göndər"
 msgid ""
 "Göndərməklə məlumatlarınızın yalnız bu sorğu üçün istifadəsinə razılıq "
 "verirsiniz."
-msgstr "Göndərməklə məlumatlarınızın yalnız bu sorğu üçün istifadəsinə razılıq verirsiniz."
+msgstr ""
+"Göndərməklə məlumatlarınızın yalnız bu sorğu üçün istifadəsinə razılıq "
+"verirsiniz."
 
 #: contact/templates/contact/_section.html:47
 msgid ""
 "Təşəkkürlər! Sorğunuz qeydə alındı — komandamız tezliklə sizinlə əlaqə "
 "saxlayacaq."
-msgstr "Təşəkkürlər! Sorğunuz qeydə alındı — komandamız tezliklə sizinlə əlaqə saxlayacaq."
+msgstr ""
+"Təşəkkürlər! Sorğunuz qeydə alındı — komandamız tezliklə sizinlə əlaqə "
+"saxlayacaq."
 
 #: contact/templates/contact/_section.html:53
 msgid "Bakı xəritəsi"
 msgstr "Bakı xəritəsi"
 
-#: contact/templates/contact/_section.html:60
+#: contact/templates/contact/_section.html:61
 msgid "Ofis"
 msgstr "Ofis"
 
-#: contact/templates/contact/_section.html:72
+#: contact/templates/contact/_section.html:65
+msgid "ofis"
+msgstr "ofis"
+
+#: contact/templates/contact/_section.html:73
 msgid "İş saatları"
 msgstr "İş saatları"
 
-#: equipment/templates/equipment/_section.html:6 templates/includes/dock.html:7
-#: templates/includes/footer.html:34 templates/includes/topbar.html:11
+#: equipment/templates/equipment/_section.html:6 equipment/views.py:10
+#: templates/includes/_nav_links.html:5 templates/includes/dock.html:7
+#: templates/includes/footer.html:34
 msgid "Avadanlıqlar"
 msgstr "Avadanlıqlar"
 
@@ -141,15 +161,18 @@ msgstr "şouyu daşıyır"
 msgid ""
 "Öz parkımız, öz mühəndislərimiz. Kirayə, quraşdırma və tədbir boyu operator "
 "dəstəyi bir paketdə."
-msgstr "Öz parkımız, öz mühəndislərimiz. Kirayə, quraşdırma və tədbir boyu operator dəstəyi bir paketdə."
+msgstr ""
+"Öz parkımız, öz mühəndislərimiz. Kirayə, quraşdırma və tədbir boyu operator "
+"dəstəyi bir paketdə."
 
 #: home/templates/home/_hero.html:50
 msgid "Aşağı sürüşdürün"
 msgstr "Aşağı sürüşdürün"
 
 #: projects/templates/projects/_section.html:6
-#: projects/templates/projects/list.html:8 templates/includes/dock.html:8
-#: templates/includes/footer.html:35 templates/includes/topbar.html:12
+#: projects/templates/projects/list.html:8 projects/views.py:10
+#: templates/includes/_nav_links.html:6 templates/includes/dock.html:8
+#: templates/includes/footer.html:35
 msgid "Layihələr"
 msgstr "Layihələr"
 
@@ -168,7 +191,9 @@ msgstr "şoular"
 msgid ""
 "Konsertlərdən korporativ mərasimlərə — miqyasından asılı olmayaraq eyni "
 "texniki dəqiqlik."
-msgstr "Konsertlərdən korporativ mərasimlərə — miqyasından asılı olmayaraq eyni texniki dəqiqlik."
+msgstr ""
+"Konsertlərdən korporativ mərasimlərə — miqyasından asılı olmayaraq eyni "
+"texniki dəqiqlik."
 
 #: projects/templates/projects/detail.html:20
 msgid "Bütün layihələr"
@@ -194,11 +219,18 @@ msgstr "komanda"
 msgid ""
 "Prodakşn menecerləri, işıq və səs mühəndisləri, kreativ direktorlar və "
 "spikerlər."
-msgstr "Prodakşn menecerləri, işıq və səs mühəndisləri, kreativ direktorlar və spikerlər."
+msgstr ""
+"Prodakşn menecerləri, işıq və səs mühəndisləri, kreativ direktorlar və "
+"spikerlər."
 
 #: team/templates/team/detail.html:23
 msgid "Bütün komanda"
 msgstr "Bütün komanda"
+
+#: team/views.py:10 templates/includes/_nav_links.html:7
+#: templates/includes/dock.html:9 templates/includes/footer.html:36
+msgid "Komanda"
+msgstr "Komanda"
 
 #: templates/includes/dock.html:4
 msgid "Sürətli naviqasiya"
@@ -208,16 +240,6 @@ msgstr "Sürətli naviqasiya"
 msgid "Ana səhifə"
 msgstr "Ana səhifə"
 
-#: templates/includes/dock.html:6 templates/includes/footer.html:33
-#: templates/includes/topbar.html:10
-msgid "Haqqımızda"
-msgstr "Haqqımızda"
-
-#: templates/includes/dock.html:9 templates/includes/footer.html:36
-#: templates/includes/topbar.html:13
-msgid "Komanda"
-msgstr "Komanda"
-
 #: templates/includes/footer.html:31
 msgid "Naviqasiya"
 msgstr "Naviqasiya"
@@ -226,10 +248,18 @@ msgstr "Naviqasiya"
 msgid "Xidmətlər"
 msgstr "Xidmətlər"
 
-#: templates/includes/footer.html:51
+#: templates/includes/footer.html:52
 msgid "Brif göndər"
 msgstr "Brif göndər"
 
-#: templates/includes/topbar.html:23
+#: templates/includes/topbar.html:13 templates/includes/topbar.html:26
 msgid "Layihə başlat"
 msgstr "Layihə başlat"
+
+#: templates/includes/topbar.html:17
+msgid "Menyu"
+msgstr "Menyu"
+
+#: templates/includes/topbar.html:23
+msgid "Əsas menyu"
+msgstr "Əsas menyu"

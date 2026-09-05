@@ -476,3 +476,143 @@ section[id]{scroll-margin-top:24px}
 .rv[data-d="7"]{transition-delay:.63s}
 .rv[data-d="8"]{transition-delay:.72s}
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* ==========================================================================
+   MOBILE OPTIMISATION
+   Everything above this line is the original design, byte for byte. This
+   block only adds mobile behaviour; no desktop rule is edited, so the
+   large-screen rendering is unchanged by construction.
+   ========================================================================== */
+
+/* ---- 1. Freeze fix: stop repainting full-screen blurred layers ----
+   Four .blob elements sit on a position:fixed layer at blur(90px) with
+   mix-blend-mode:screen and a 26-36s infinite transform+scale animation.
+   Each frame forces the compositor to re-blur and re-blend a ~640px surface,
+   which is what locks up the main thread on phones. Static blobs paint once
+   and are cached, so the look survives while the per-frame cost disappears. */
+@media (max-width:900px){
+  .blob{
+    animation:none;
+    mix-blend-mode:normal;
+    filter:blur(70px);
+    opacity:.26;
+  }
+  .b4{opacity:.14}
+  .grid-lines{display:none}
+  .wave-path{animation:none}
+  .scroll-hint i{animation:none}
+}
+
+/* ---- 2. Backdrop blur is the other per-frame cost ----
+   A fixed, blurred bar has to re-sample everything scrolling behind it.
+   An opaque background is visually near-identical at this blur radius. */
+@media (max-width:900px){
+  .dock{
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+    background:rgba(15,17,24,.94);
+    box-shadow:0 10px 34px rgba(0,0,0,.5);
+  }
+  .panel,.eq-card__tag,.proj-card__arrow,.btn--ghost,.eyebrow{
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+  }
+}
+
+/* ---- 3. Touch input ----
+   Hover styles latch on touch: tapping a card leaves it stuck in its hover
+   state until you tap elsewhere. Restrict them to devices with a pointer. */
+@media (hover:none){
+  .dock a:hover{color:var(--muted);background:none;transform:none}
+  .dock a.is-active{color:#fff;background:rgba(255,255,255,.10);transform:scale(1.1)}
+  .dock a:hover::after{opacity:0}
+  .dock .soc:hover{color:var(--dim)}
+  .topnav a:hover{color:var(--muted);background:none}
+}
+a,button,input,textarea,select,summary{-webkit-tap-highlight-color:rgba(255,61,154,.18)}
+a,button,.dock a,.navbtn{touch-action:manipulation}
+
+/* ---- 4. Header navigation on phones ----
+   .topnav is display:none below 1080px and the CTA below 640px, which left
+   the header with nothing but a logo — no menu, and no language switcher. */
+.navbtn{display:none}
+@media (max-width:1080px){
+  .topbar{position:fixed;transition:background .3s var(--ease),border-color .3s var(--ease)}
+  .topbar.is-stuck{
+    background:rgba(11,12,16,.94);
+    border-bottom:1px solid var(--stroke);
+  }
+  /* Anchor targets must clear the now-fixed bar. */
+  section[id]{scroll-margin-top:86px}
+
+  .navbtn{
+    display:grid;place-items:center;flex:none;
+    width:46px;height:46px;padding:0;border-radius:14px;
+    background:var(--panel);border:1px solid var(--stroke-2);
+    color:var(--ink);cursor:pointer;
+  }
+  .navbtn__bars,
+  .navbtn__bars::before,
+  .navbtn__bars::after{
+    content:"";display:block;width:19px;height:2px;border-radius:2px;
+    background:currentColor;transition:transform .32s var(--ease),opacity .2s linear;
+  }
+  .navbtn__bars{position:relative}
+  .navbtn__bars::before{position:absolute;top:-6px;left:0}
+  .navbtn__bars::after{position:absolute;top:6px;left:0}
+  .navbtn[aria-expanded="true"] .navbtn__bars{background:transparent}
+  .navbtn[aria-expanded="true"] .navbtn__bars::before{transform:translateY(6px) rotate(45deg)}
+  .navbtn[aria-expanded="true"] .navbtn__bars::after{transform:translateY(-6px) rotate(-45deg)}
+
+  .mobnav{
+    position:fixed;left:0;right:0;top:0;
+    padding:96px 0 28px;
+    background:rgba(9,10,14,.985);
+    border-bottom:1px solid var(--stroke);
+    box-shadow:0 30px 70px rgba(0,0,0,.6);
+    max-height:100dvh;overflow-y:auto;overscroll-behavior:contain;
+    transform:translateY(-14px);opacity:0;
+    transition:transform .34s var(--ease),opacity .24s linear;
+  }
+  .mobnav.is-open{transform:none;opacity:1}
+  .mobnav__in{
+    width:min(100% - 32px,var(--shell));margin-inline:auto;
+    display:flex;flex-direction:column;gap:4px;
+  }
+  .mobnav a{
+    display:flex;align-items:center;min-height:52px;padding:12px 16px;
+    border-radius:14px;font-size:1.05rem;font-weight:700;letter-spacing:-.01em;
+    color:var(--ink);border:1px solid transparent;
+  }
+  .mobnav a:active{background:var(--panel);border-color:var(--stroke)}
+  /* The panel lives inside <header class="topbar">, so the original
+     "@media(max-width:640px){.topbar .btn{display:none}}" would hide this CTA
+     too. Two classes beat two classes on source order, so no !important. */
+  .mobnav .mobnav__cta{
+    display:flex;justify-content:center;margin-top:14px;min-height:54px;
+    font-size:.95rem;letter-spacing:.01em;
+  }
+  /* Keep the logo and the close button crisp above the panel behind them. */
+  .topbar__in{position:relative;z-index:2}
+  .mobnav{z-index:1}
+  body.nav-open{overflow:hidden}
+}
+@media (max-width:640px){
+  /* The header CTA is hidden this small; the menu carries it instead. */
+  .topbar{padding:16px 0}
+  .mobnav{padding-top:88px}
+}
+
+/* ---- 5. Tap targets and small-screen spacing ---- */
+@media (max-width:900px){
+  .dock a{width:44px;height:44px}
+  .footer a,.foot-col a{padding-block:2px}
+}
+@media (max-width:520px){
+  .sec-head{margin-bottom:40px}
+  .marquee__track{animation-duration:44s}
+}
+
+/* ---- 6. Respect the reduced-motion preference for the new pieces ---- */
+@media (prefers-reduced-motion:reduce){
+  .mobnav{transition:none}
+  .navbtn__bars,.navbtn__bars::before,.navbtn__bars::after{transition:none}
+}

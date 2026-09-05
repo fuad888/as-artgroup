@@ -17,6 +17,20 @@ def body(html):
     return match.group(1) if match else html
 
 
+MOBILE_NAV_MARKUP = (
+    r'<nav class="mobnav".*?</nav>',
+    r'<button type="button" class="navbtn".*?</button>',
+)
+
+
+def without_mobile_nav(html):
+    """The mobile menu is a deliberate addition. Removing it lets the original
+    fidelity guarantees stay exact instead of being loosened into vagueness."""
+    for pattern in MOBILE_NAV_MARKUP:
+        html = re.sub(pattern, "", html, flags=re.S)
+    return html
+
+
 def class_usage(html):
     """How many times each CSS class appears — what the stylesheet actually keys off."""
     counter = Counter()
@@ -72,7 +86,8 @@ class DesignFidelityTests(SeededPageTestCase):
         """Behaviour-only hook classes (no rule in site.css) are allowed to appear;
         anything the stylesheet actually targets must be used identically."""
         stylesheet = (Path(settings.BASE_DIR) / "static/css/site.css").read_text()
-        original, rendered = class_usage(self.original), class_usage(self.rendered)
+        original = class_usage(self.original)
+        rendered = class_usage(without_mobile_nav(self.rendered))
 
         drifted = {}
         for name in set(original) | set(rendered):
@@ -86,7 +101,9 @@ class DesignFidelityTests(SeededPageTestCase):
 
     def test_added_classes_are_javascript_hooks_only(self):
         stylesheet = (Path(settings.BASE_DIR) / "static/css/site.css").read_text()
-        added = set(class_usage(self.rendered)) - set(class_usage(self.original))
+        added = set(class_usage(without_mobile_nav(self.rendered))) - set(
+            class_usage(self.original)
+        )
         styled = [n for n in added if re.search(r"\.%s\b" % re.escape(n), stylesheet)]
         self.assertEqual(styled, [], f"New classes carry styling: {styled}")
 
@@ -106,12 +123,53 @@ class DesignFidelityTests(SeededPageTestCase):
         self.assertIn("csrfmiddlewaretoken", self.rendered)
         self.assertGreater(extra_links, 0)
 
-    def test_stylesheet_is_external_and_matches_the_original_css(self):
+    def _original_css(self):
+        return re.search(r"<style>(.*?)</style>", self.original, re.S).group(1).strip()
+
+    def test_stylesheet_is_external_and_keeps_the_original_css_verbatim(self):
+        """Mobile work appends; it never edits. Because the original block is
+        still an exact prefix, no desktop rule can have been changed."""
         self.assertNotIn("<style>", self.rendered)
         self.assertIn("css/site.css", self.rendered)
-        extracted = (Path(settings.BASE_DIR) / "static/css/site.css").read_text()
-        inline = re.search(r"<style>(.*?)</style>", self.original, re.S).group(1)
-        self.assertEqual(extracted.strip(), inline.strip())
+        stylesheet = (Path(settings.BASE_DIR) / "static/css/site.css").read_text().strip()
+        self.assertTrue(
+            stylesheet.startswith(self._original_css()),
+            "site.css no longer starts with the original index.html CSS verbatim",
+        )
+
+    def test_appended_css_only_reaches_touch_and_small_screens(self):
+        """Everything added after the original block must sit inside a mobile or
+        touch media query, so the desktop rendering is protected structurally
+        rather than by inspection."""
+        stylesheet = (Path(settings.BASE_DIR) / "static/css/site.css").read_text().strip()
+        tail = re.sub(r"/\*.*?\*/", "", stylesheet[len(self._original_css()):], flags=re.S)
+
+        # Remove each @media block wholesale so only unscoped rules remain.
+        out, i = [], 0
+        while i < len(tail):
+            if tail.startswith("@media", i):
+                depth, j = 1, tail.index("{", i) + 1
+                while j < len(tail) and depth:
+                    depth += (tail[j] == "{") - (tail[j] == "}")
+                    j += 1
+                i = j
+                continue
+            out.append(tail[i])
+            i += 1
+
+        selectors = [
+            " ".join(s.split()) for s in re.findall(r"([^{}]+)\{", "".join(out)) if s.strip()
+        ]
+        allowed = {
+            ".navbtn",  # new element, display:none until a mobile query shows it
+            "a,button,input,textarea,select,summary",  # -webkit-tap-highlight-color
+            "a,button,.dock a,.navbtn",  # touch-action
+        }
+        self.assertEqual(
+            [s for s in selectors if s not in allowed],
+            [],
+            "Appended CSS escapes its mobile scope",
+        )
 
     def test_no_template_comment_leaks_into_the_html(self):
         # Django's {# #} is single-line only; a multi-line one renders as text.

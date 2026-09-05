@@ -1,8 +1,11 @@
 (function(){
   'use strict';
 
-  /* ---- il ---- */
-  document.getElementById('year').textContent = new Date().getFullYear();
+  /* ---- il ----
+     Guarded: this file is one IIFE, so an exception this early would take the
+     menu, the dock and the contact form down with it. */
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   /* ---- reveal on scroll ---- */
   var reveals = document.querySelectorAll('.rv');
@@ -48,17 +51,57 @@
   var links = Array.prototype.slice.call(document.querySelectorAll('.dock a'))
     .filter(function(a){ return a.hash && document.querySelector(a.hash); });
   var sections = links.map(function(a){ return document.querySelector(a.hash); });
-  var setActive = function(){
-    var pos = window.scrollY + window.innerHeight * 0.35;
-    var current = sections[0];
-    sections.forEach(function(s){ if (s.offsetTop <= pos) current = s; });
-    links.forEach(function(a){
-      a.classList.toggle('is-active', !!current && a.hash === '#' + current.id);
-    });
+  /* Reading offsetTop forces the browser to flush layout. Doing that for every
+     section on every scroll event is what locked up phones, so offsets are
+     measured once (and again on resize) and the scroll path only reads cached
+     numbers. Class writes are skipped unless the active link actually changed. */
+  var offsets = [];
+  var measure = function(){
+    offsets = sections.map(function(s){ return s.offsetTop; });
   };
-  window.addEventListener('scroll', setActive, {passive:true});
-  window.addEventListener('resize', setActive);
-  setActive();
+
+  var topbar = document.getElementById('topbar');
+  var stuck = false;
+  var activeHash = null;
+
+  var apply = function(){
+    var y = window.scrollY;
+
+    if (topbar) {
+      var shouldStick = y > 20;
+      if (shouldStick !== stuck) {
+        stuck = shouldStick;
+        topbar.classList.toggle('is-stuck', stuck);
+      }
+    }
+
+    if (!offsets.length) return;
+    var pos = y + window.innerHeight * 0.35;
+    var current = 0;
+    for (var i = 0; i < offsets.length; i++) {
+      if (offsets[i] <= pos) current = i;
+    }
+    var hash = links[current] ? links[current].hash : null;
+    if (hash === activeHash) return;
+    activeHash = hash;
+    links.forEach(function(a){ a.classList.toggle('is-active', a.hash === hash); });
+  };
+
+  var queued = false;
+  var onScroll = function(){
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function(){ queued = false; apply(); });
+  };
+
+  var onResize = function(){ measure(); apply(); };
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onResize, {passive:true});
+  // Late-loading images change section offsets, so re-measure once settled.
+  window.addEventListener('load', onResize);
+  measure();
+  apply();
 
   /* ---- parallax on floating shapes ---- */
   var shapes = document.querySelectorAll('.shape');
@@ -153,7 +196,6 @@
       }
 
       var csrf = form.querySelector('[name=csrfmiddlewaretoken]');
-      console.log('[contact] POST', endpoint, payload);
 
       fetch(endpoint, {
         method: 'POST',
@@ -167,8 +209,6 @@
           return {status: response.status, data: data};
         });
       }).then(function(result){
-        console.log('[contact] response', result.status, result.data);
-
         if (result.status === 201) {
           show(msg('success', 'Təşəkkürlər! Sorğunuz qeydə alındı.').replace('{name}', payload.name));
           form.reset();
@@ -196,6 +236,57 @@
         }
       });
     });
+  }
+
+  /* ---- mobile menu ----
+     Below 1080px .topnav is hidden by CSS, so without this the header carries
+     no navigation at all — not even the language switcher, which lives in it. */
+  var navToggle = document.getElementById('navToggle');
+  var mobnav = document.getElementById('mobnav');
+
+  if (navToggle && mobnav) {
+    var hideTimer = null;
+    var isOpen = function(){ return navToggle.getAttribute('aria-expanded') === 'true'; };
+
+    var setOpen = function(open){
+      if (open === isOpen()) return;
+      clearTimeout(hideTimer);
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.classList.toggle('nav-open', open);
+
+      if (open) {
+        mobnav.hidden = false;
+        // One deliberate reflow so the panel animates in from its closed state.
+        void mobnav.offsetWidth;
+        mobnav.classList.add('is-open');
+      } else {
+        mobnav.classList.remove('is-open');
+        // Keep it out of the accessibility tree once the transition is done.
+        // The timeout also covers reduced-motion, where transitionend never fires.
+        hideTimer = setTimeout(function(){ mobnav.hidden = true; }, 360);
+      }
+    };
+
+    navToggle.addEventListener('click', function(){ setOpen(!isOpen()); });
+
+    // Same-page anchors do not reload, so the panel has to close itself.
+    mobnav.addEventListener('click', function(e){
+      if (e.target.closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && isOpen()) {
+        setOpen(false);
+        navToggle.focus();
+      }
+    });
+
+    // Rotating to a width where .topnav is visible again must not leave the
+    // panel open or the body scroll-locked.
+    var desktop = window.matchMedia('(min-width:1081px)');
+    var onChange = function(e){ if (e.matches) setOpen(false); };
+    if (desktop.addEventListener) desktop.addEventListener('change', onChange);
+    else if (desktop.addListener) desktop.addListener(onChange);
   }
 
 })();

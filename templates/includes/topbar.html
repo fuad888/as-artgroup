@@ -1,4 +1,4 @@
-{% load i18n seo %}
+{% load i18n %}
 <!-- ===== TOP BAR ===== -->
 <header class="topbar" id="topbar">
   <div class="shell topbar__in">
@@ -8,19 +8,21 @@
     </a>
     {# Header goes to standalone pages; the dock keeps homepage scroll navigation. #}
     <nav class="topnav">
-      <a href="{% url 'about:page' %}">{% trans "Haqqımızda" %}</a>
-      <a href="{% url 'equipment:page' %}">{% trans "Avadanlıqlar" %}</a>
-      <a href="{% url 'projects:list' %}">{% trans "Layihələr" %}</a>
-      <a href="{% url 'team:list' %}">{% trans "Komanda" %}</a>
-      <a href="{% url 'contact:page' %}">{% trans "Əlaqə" %}</a>
-      {# Language switcher — reuses .topnav styling so it reads as another nav item. #}
-      {% for code, name in LANGUAGES %}
-        {% if code != LANGUAGE_CODE %}
-          {% alternate_url code as switch_url %}
-          <a href="{{ switch_url }}" hreflang="{{ code }}" aria-label="{{ name }}">{{ code|upper }}</a>
-        {% endif %}
-      {% endfor %}
+      {% include "includes/_nav_links.html" %}
     </nav>
     <a href="{% url 'contact:page' %}" class="btn btn--grad btn--sm">{% trans "Layihə başlat" %} <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
+    {# Below 1080px .topnav is hidden; this button is the only way into the nav. #}
+    <button type="button" class="navbtn" id="navToggle"
+            aria-label="{% trans 'Menyu' %}" aria-expanded="false" aria-controls="mobnav">
+      <span class="navbtn__bars" aria-hidden="true"></span>
+    </button>
   </div>
+
+  {# Mobile menu. Hidden for no-JS and screen readers until the button opens it. #}
+  <nav class="mobnav" id="mobnav" hidden aria-label="{% trans 'Əsas menyu' %}">
+    <div class="mobnav__in">
+      {% include "includes/_nav_links.html" %}
+      <a href="{% url 'contact:page' %}" class="btn btn--grad mobnav__cta">{% trans "Layihə başlat" %} <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
+    </div>
+  </nav>
 </header>
