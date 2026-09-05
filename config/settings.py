@@ -86,7 +86,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 
 # Database
-# PostgreSQL only — see docker-compose.yml for the local dev container.
+# PostgreSQL in production; SQLite is also supported (e.g. while a host's
+# Postgres isn't provisioned yet) — connect_timeout is Postgres-only.
 
 DATABASES = {
     "default": {
@@ -96,9 +97,10 @@ DATABASES = {
         "CONN_MAX_AGE": env.int("DATABASE_CONN_MAX_AGE", default=60),
         # Guards against handing a request a connection the server already closed.
         "CONN_HEALTH_CHECKS": True,
-        "OPTIONS": {"connect_timeout": 5},
     },
 }
+if "postgresql" in DATABASES["default"]["ENGINE"]:
+    DATABASES["default"]["OPTIONS"] = {"connect_timeout": 5}
 
 
 # Cache — Redis when REDIS_URL is configured, in-memory otherwise.

@@ -1,0 +1,1030 @@
+[
+{
+  "model": "core.sitesettings",
+  "pk": 1,
+  "fields": {
+    "site_name": "AS-ART Group",
+    "site_tagline": "İlham Verən Təcrübələr Yaradırıq",
+    "site_tagline_az": "İlham Verən Təcrübələr Yaradırıq",
+    "site_tagline_ru": "Мы создаём вдохновляющие впечатления",
+    "logo_mark_text": "AS",
+    "meta_description": "AS-ART Group — Bakıda konsert, konfrans, sərgi və təntənəli mərasimlərin tam dövrlü təşkilatı. Səhnə, işıq, səs və prodakşn.",
+    "meta_description_az": "AS-ART Group — Bakıda konsert, konfrans, sərgi və təntənəli mərasimlərin tam dövrlü təşkilatı. Səhnə, işıq, səs və prodakşn.",
+    "meta_description_ru": "AS-ART Group — организация полного цикла концертов, конференций, выставок и торжественных церемоний в Баку. Сцена, свет, звук и продакшн.",
+    "phone": "+994 51 555 77 44",
+    "office_phone": "+994 12 310 34 35",
+    "whatsapp_phone": "+994 51 555 77 44",
+    "email": "office@as-artgroup.az",
+    "booking_email": "booking@as-artgroup.az",
+    "address_line": "Cəfər Cabbarlı 40, Caspian Business Center AZ1065",
+    "address_line_az": "Cəfər Cabbarlı 40, Caspian Business Center AZ1065",
+    "address_line_ru": "Джафар Джаббарлы 40, Caspian Business Center AZ1065",
+    "address_note": "Azərbaycan · Səbail rayonu",
+    "address_note_az": "Azərbaycan · Səbail rayonu",
+    "address_note_ru": "Азербайджан · Сабаильский район",
+    "map_query": "Caspian Business Center, Cəfər Cabbarlı 40, Baku AZ1065",
+    "working_hours_line": "B.e — Cümə · 09:00 – 19:00",
+    "working_hours_line_az": "B.e — Cümə · 09:00 – 19:00",
+    "working_hours_line_ru": "Пн — Пт · 09:00 – 19:00",
+    "working_hours_note": "Tədbir günləri 24/7 dəstək",
+    "working_hours_note_az": "Tədbir günləri 24/7 dəstək",
+    "working_hours_note_ru": "В дни мероприятий поддержка 24/7",
+    "map_embed_url": "https://maps.google.com/maps?q=Caspian%20Business%20Center%2C%20Cafar%20Jabbarly%2040%2C%20Baku&t=&z=16&ie=UTF8&iwloc=&output=embed",
+    "footer_note": "Səhnə söndü, işıqlar qaldı. Növbəti layihəni bizimlə başlayın.",
+    "footer_note_az": "Səhnə söndü, işıqlar qaldı. Növbəti layihəni bizimlə başlayın.",
+    "footer_note_ru": "Сцена погасла, но свет остался. Начнём следующий проект вместе.",
+    "copyright_text": "AS-ART Group. Bütün hüquqlar qorunur.",
+    "copyright_text_az": "AS-ART Group. Bütün hüquqlar qorunur.",
+    "copyright_text_ru": "AS-ART Group. Все права защищены.",
+    "instagram_url": "https://instagram.com",
+    "facebook_url": "https://facebook.com",
+    "linkedin_url": "https://linkedin.com",
+    "youtube_url": "https://youtube.com"
+  }
+},
+{
+  "model": "core.seosettings",
+  "pk": 1,
+  "fields": {
+    "title_suffix": "AS-ART Group",
+    "default_og_image": "",
+    "default_og_image_url": "",
+    "allow_indexing": false,
+    "google_analytics_id": "",
+    "google_tag_manager_id": "",
+    "google_site_verification": "",
+    "yandex_verification": ""
+  }
+},
+{
+  "model": "core.servicetag",
+  "pk": 1,
+  "fields": {
+    "label": "Tədbirlər",
+    "label_az": "Tədbirlər",
+    "label_ru": "Мероприятия",
+    "order": 1
+  }
+},
+{
+  "model": "core.servicetag",
+  "pk": 2,
+  "fields": {
+    "label": "Konfranslar",
+    "label_az": "Konfranslar",
+    "label_ru": "Конференции",
+    "order": 2
+  }
+},
+{
+  "model": "core.servicetag",
+  "pk": 3,
+  "fields": {
+    "label": "Sərgilər",
+    "label_az": "Sərgilər",
+    "label_ru": "Выставки",
+    "order": 3
+  }
+},
+{
+  "model": "core.servicetag",
+  "pk": 4,
+  "fields": {
+    "label": "Görüşlər",
+    "label_az": "Görüşlər",
+    "label_ru": "Встречи",
+    "order": 4
+  }
+},
+{
+  "model": "core.servicetag",
+  "pk": 5,
+  "fields": {
+    "label": "Təntənəli Mərasimlər",
+    "label_az": "Təntənəli Mərasimlər",
+    "label_ru": "Торжественные церемонии",
+    "order": 5
+  }
+},
+{
+  "model": "home.herocontent",
+  "pk": 1,
+  "fields": {
+    "eyebrow": "Bakı · Azərbaycan · 2011-dən bəri",
+    "eyebrow_az": "Bakı · Azərbaycan · 2011-dən bəri",
+    "eyebrow_ru": "Баку · Азербайджан · с 2011 года",
+    "heading_line1": "İLHAM VERƏN",
+    "heading_line1_az": "İLHAM VERƏN",
+    "heading_line1_ru": "ВДОХНОВЛЯЮЩИЕ",
+    "heading_line2": "TƏCRÜBƏLƏR",
+    "heading_line2_az": "TƏCRÜBƏLƏR",
+    "heading_line2_ru": "ВПЕЧАТЛЕНИЯ",
+    "heading_line3": "YARADIRIQ",
+    "heading_line3_az": "YARADIRIQ",
+    "heading_line3_ru": "СОЗДАЁМ",
+    "lead": "Səhnə, işıq, səs və prodakşn — konsepsiyadan son alqışa qədər. AS-ART Group tədbirinizi şəhərin yaddaşında qalan bir şouya çevirir.",
+    "lead_az": "Səhnə, işıq, səs və prodakşn — konsepsiyadan son alqışa qədər. AS-ART Group tədbirinizi şəhərin yaddaşında qalan bir şouya çevirir.",
+    "lead_ru": "Сцена, свет, звук и продакшн — от концепции до финальных аплодисментов. AS-ART Group превращает ваше мероприятие в шоу, которое останется в памяти города.",
+    "cta_primary_label": "Layihələrimiz",
+    "cta_primary_label_az": "Layihələrimiz",
+    "cta_primary_label_ru": "Наши проекты",
+    "cta_secondary_label": "Bizi tanıyın",
+    "cta_secondary_label_az": "Bizi tanıyın",
+    "cta_secondary_label_ru": "Узнать о нас",
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1744704001891-5396ac15bfe9?auto=format&fit=crop&w=2400&q=80"
+  }
+},
+{
+  "model": "home.herofeature",
+  "pk": 1,
+  "fields": {
+    "hero": 1,
+    "icon_key": "light",
+    "title": "Peşəkar səhnə işığı",
+    "title_az": "Peşəkar səhnə işığı",
+    "title_ru": "Профессиональный сценический свет",
+    "description": "Moving head, wash, beam və LED ekran",
+    "description_az": "Moving head, wash, beam və LED ekran",
+    "description_ru": "Moving head, wash, beam и LED-экраны",
+    "order": 1
+  }
+},
+{
+  "model": "home.herofeature",
+  "pk": 2,
+  "fields": {
+    "hero": 1,
+    "icon_key": "sound",
+    "title": "Line-array səs sistemləri",
+    "title_az": "Line-array səs sistemləri",
+    "title_ru": "Звуковые системы line-array",
+    "description": "Açıq hava və zal akustikası üçün",
+    "description_az": "Açıq hava və zal akustikası üçün",
+    "description_ru": "Для открытых площадок и залов",
+    "order": 2
+  }
+},
+{
+  "model": "home.herofeature",
+  "pk": 3,
+  "fields": {
+    "hero": 1,
+    "icon_key": "spark",
+    "title": "Tam dövrlü prodakşn",
+    "title_az": "Tam dövrlü prodakşn",
+    "title_ru": "Продакшн полного цикла",
+    "description": "Konsepsiya · quraşdırma · idarəetmə",
+    "description_az": "Konsepsiya · quraşdırma · idarəetmə",
+    "description_ru": "Концепция · монтаж · управление",
+    "order": 3
+  }
+},
+{
+  "model": "about.aboutcontent",
+  "pk": 1,
+  "fields": {
+    "eyebrow": "Haqqımızda",
+    "eyebrow_az": "Haqqımızda",
+    "eyebrow_ru": "О нас",
+    "heading": "Şəhərin enerjisini",
+    "heading_az": "Şəhərin enerjisini",
+    "heading_ru": "Энергию города",
+    "heading_accent": "səhnəyə gətiririk",
+    "heading_accent_az": "səhnəyə gətiririk",
+    "heading_accent_ru": "переносим на сцену",
+    "lead": "AS-ART Group — Bakıda konsert və korporativ tədbirlərin tam dövrlü təşkilatçısıdır. Biz sadəcə avadanlıq qurmuruq; ideyanı işığa, səsə və emosiyaya çeviririk.",
+    "lead_az": "AS-ART Group — Bakıda konsert və korporativ tədbirlərin tam dövrlü təşkilatçısıdır. Biz sadəcə avadanlıq qurmuruq; ideyanı işığa, səsə və emosiyaya çeviririk.",
+    "lead_ru": "AS-ART Group — организатор полного цикла концертов и корпоративных мероприятий в Баку. Мы не просто устанавливаем оборудование — мы превращаем идею в свет, звук и эмоции.",
+    "body_paragraph_1": "Komandamız memarlıq miqyaslı səhnə həlləri, line-array səs sistemləri və proqramlaşdırılan işıq şouları üzərində işləyir. Hər layihə texniki rayder, 3D vizuallaşdırma və tam quraşdırma qrafiki ilə başlayır — beləliklə tədbir günü heç bir sürpriz olmur.",
+    "body_paragraph_1_az": "Komandamız memarlıq miqyaslı səhnə həlləri, line-array səs sistemləri və proqramlaşdırılan işıq şouları üzərində işləyir. Hər layihə texniki rayder, 3D vizuallaşdırma və tam quraşdırma qrafiki ilə başlayır — beləliklə tədbir günü heç bir sürpriz olmur.",
+    "body_paragraph_1_ru": "Наша команда работает над сценическими решениями архитектурного масштаба, звуковыми системами line-array и программируемыми световыми шоу. Каждый проект начинается с технического райдера, 3D-визуализации и полного графика монтажа — поэтому в день мероприятия не бывает сюрпризов.",
+    "body_paragraph_2": "Heydər Əliyev Sarayından açıq hava meydanlarına, korporativ konfranslardan təntənəli mərasimlərə qədər — miqyas dəyişir, standart isə eyni qalır.",
+    "body_paragraph_2_az": "Heydər Əliyev Sarayından açıq hava meydanlarına, korporativ konfranslardan təntənəli mərasimlərə qədər — miqyas dəyişir, standart isə eyni qalır.",
+    "body_paragraph_2_ru": "От Центра Гейдара Алиева до открытых площадок, от корпоративных конференций до торжественных церемоний — масштаб меняется, стандарт остаётся неизменным.",
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1596306499300-0b7b1689b9f6?auto=format&fit=crop&w=1200&q=80",
+    "badge_title": "Bakı, Azərbaycan",
+    "badge_title_az": "Bakı, Azərbaycan",
+    "badge_title_ru": "Баку, Азербайджан",
+    "badge_subtitle": "Baza · Studiya · Anbar",
+    "badge_subtitle_az": "Baza · Studiya · Anbar",
+    "badge_subtitle_ru": "База · Студия · Склад",
+    "cta_primary_label": "Avadanlıq parkı",
+    "cta_primary_label_az": "Avadanlıq parkı",
+    "cta_primary_label_ru": "Парк оборудования",
+    "cta_secondary_label": "Bizimlə əlaqə",
+    "cta_secondary_label_az": "Bizimlə əlaqə",
+    "cta_secondary_label_ru": "Связаться с нами"
+  }
+},
+{
+  "model": "about.stat",
+  "pk": 1,
+  "fields": {
+    "about": 1,
+    "number": 22,
+    "suffix": "",
+    "label": "Tədbirlər",
+    "label_az": "Tədbirlər",
+    "label_ru": "Мероприятия",
+    "description": "İllik keçirilən irimiqyaslı konsert və mərasimlər",
+    "description_az": "İllik keçirilən irimiqyaslı konsert və mərasimlər",
+    "description_ru": "Ежегодные масштабные концерты и церемонии",
+    "gradient_key": "cool",
+    "order": 1
+  }
+},
+{
+  "model": "about.stat",
+  "pk": 2,
+  "fields": {
+    "about": 1,
+    "number": 10,
+    "suffix": "+",
+    "label": "Səhnə",
+    "label_az": "Səhnə",
+    "label_ru": "Сцена",
+    "description": "Modul səhnə konstruksiyaları və podium sistemləri",
+    "description_az": "Modul səhnə konstruksiyaları və podium sistemləri",
+    "description_ru": "Модульные сценические конструкции и подиумные системы",
+    "gradient_key": "warm",
+    "order": 2
+  }
+},
+{
+  "model": "about.stat",
+  "pk": 3,
+  "fields": {
+    "about": 1,
+    "number": 26,
+    "suffix": "+",
+    "label": "İşıq / Səs",
+    "label_az": "İşıq / Səs",
+    "label_ru": "Свет / Звук",
+    "description": "İşıq və səs komplektləri, tam texniki dəstək ilə",
+    "description_az": "İşıq və səs komplektləri, tam texniki dəstək ilə",
+    "description_ru": "Комплекты света и звука с полной технической поддержкой",
+    "gradient_key": "hot",
+    "order": 3
+  }
+},
+{
+  "model": "equipment.equipmentcategory",
+  "pk": 1,
+  "fields": {
+    "tag_number": "01",
+    "tag_label": "Işıq",
+    "tag_label_az": "Işıq",
+    "tag_label_ru": "Свет",
+    "title": "Səhnə İşıqları",
+    "title_az": "Səhnə İşıqları",
+    "title_ru": "Сценическое освещение",
+    "description": "Proqramlaşdırılan moving head, beam və wash cihazları, DMX idarəetmə və atmosfer effektləri.",
+    "description_az": "Proqramlaşdırılan moving head, beam və wash cihazları, DMX idarəetmə və atmosfer effektləri.",
+    "description_ru": "Программируемые приборы moving head, beam и wash, управление DMX и атмосферные эффекты.",
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1100&q=80",
+    "gradient_key": "warm",
+    "order": 1
+  }
+},
+{
+  "model": "equipment.equipmentcategory",
+  "pk": 2,
+  "fields": {
+    "tag_number": "02",
+    "tag_label": "Məkan",
+    "tag_label_az": "Məkan",
+    "tag_label_ru": "Локация",
+    "title": "Heydər Əliyev Equipment",
+    "title_az": "Heydər Əliyev Equipment",
+    "title_ru": "Оборудование Центра Гейдара Алиева",
+    "description": "Mərkəzin memarlıq miqyasına uyğun səhnə, LED ekran və proyeksiya həlləri — mapping daxil.",
+    "description_az": "Mərkəzin memarlıq miqyasına uyğun səhnə, LED ekran və proyeksiya həlləri — mapping daxil.",
+    "description_ru": "Сцена, LED-экран и проекционные решения, соответствующие архитектурному масштабу центра — включая маппинг.",
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1752964758338-ded530178e18?auto=format&fit=crop&w=1100&q=80",
+    "gradient_key": "cool",
+    "order": 2
+  }
+},
+{
+  "model": "equipment.equipmentcategory",
+  "pk": 3,
+  "fields": {
+    "tag_number": "03",
+    "tag_label": "Səs",
+    "tag_label_az": "Səs",
+    "tag_label_ru": "Звук",
+    "title": "Soundriglar",
+    "title_az": "Soundriglar",
+    "title_ru": "Звуковые системы",
+    "description": "Line-array səs sistemləri, rəqəmsal mikserlər və səhnə monitorinqi — açıq hava və zal üçün.",
+    "description_az": "Line-array səs sistemləri, rəqəmsal mikserlər və səhnə monitorinqi — açıq hava və zal üçün.",
+    "description_ru": "Звуковые системы line-array, цифровые микшеры и мониторинг на сцене — для открытых площадок и залов.",
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1100&q=80",
+    "gradient_key": "hot",
+    "order": 3
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 1,
+  "fields": {
+    "category": 1,
+    "label": "Moving Head",
+    "label_az": "Moving Head",
+    "label_ru": "Moving Head",
+    "order": 1
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 2,
+  "fields": {
+    "category": 1,
+    "label": "Beam / Wash",
+    "label_az": "Beam / Wash",
+    "label_ru": "Beam / Wash",
+    "order": 2
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 3,
+  "fields": {
+    "category": 1,
+    "label": "DMX 512",
+    "label_az": "DMX 512",
+    "label_ru": "DMX 512",
+    "order": 3
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 4,
+  "fields": {
+    "category": 1,
+    "label": "Hazer & Fog",
+    "label_az": "Hazer & Fog",
+    "label_ru": "Hazer & Fog",
+    "order": 4
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 5,
+  "fields": {
+    "category": 2,
+    "label": "LED Wall",
+    "label_az": "LED Wall",
+    "label_ru": "LED Wall",
+    "order": 1
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 6,
+  "fields": {
+    "category": 2,
+    "label": "Projection Mapping",
+    "label_az": "Projection Mapping",
+    "label_ru": "Проекционный маппинг",
+    "order": 2
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 7,
+  "fields": {
+    "category": 2,
+    "label": "Modul Səhnə",
+    "label_az": "Modul Səhnə",
+    "label_ru": "Модульная сцена",
+    "order": 3
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 8,
+  "fields": {
+    "category": 2,
+    "label": "Rigging",
+    "label_az": "Rigging",
+    "label_ru": "Риггинг",
+    "order": 4
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 9,
+  "fields": {
+    "category": 3,
+    "label": "Line Array",
+    "label_az": "Line Array",
+    "label_ru": "Line Array",
+    "order": 1
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 10,
+  "fields": {
+    "category": 3,
+    "label": "Subwoofer",
+    "label_az": "Subwoofer",
+    "label_ru": "Сабвуфер",
+    "order": 2
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 11,
+  "fields": {
+    "category": 3,
+    "label": "Digital Mixer",
+    "label_az": "Digital Mixer",
+    "label_ru": "Цифровой микшер",
+    "order": 3
+  }
+},
+{
+  "model": "equipment.equipmenttag",
+  "pk": 12,
+  "fields": {
+    "category": 3,
+    "label": "In-Ear Monitor",
+    "label_az": "In-Ear Monitor",
+    "label_ru": "In-Ear мониторинг",
+    "order": 4
+  }
+},
+{
+  "model": "projects.projectcategory",
+  "pk": 1,
+  "fields": {
+    "name": "Konsert",
+    "name_az": "Konsert",
+    "name_ru": "Концерт",
+    "slug": "konsert"
+  }
+},
+{
+  "model": "projects.projectcategory",
+  "pk": 2,
+  "fields": {
+    "name": "Şou",
+    "name_az": "Şou",
+    "name_ru": "Шоу",
+    "slug": "sou"
+  }
+},
+{
+  "model": "projects.projectcategory",
+  "pk": 3,
+  "fields": {
+    "name": "Konfrans",
+    "name_az": "Konfrans",
+    "name_ru": "Конференция",
+    "slug": "konfrans"
+  }
+},
+{
+  "model": "projects.projectcategory",
+  "pk": 4,
+  "fields": {
+    "name": "Mərasim",
+    "name_az": "Mərasim",
+    "name_ru": "Церемония",
+    "slug": "merasim"
+  }
+},
+{
+  "model": "projects.projectcategory",
+  "pk": 5,
+  "fields": {
+    "name": "Festival",
+    "name_az": "Festival",
+    "name_ru": "Фестиваль",
+    "slug": "festival"
+  }
+},
+{
+  "model": "projects.projectcategory",
+  "pk": 6,
+  "fields": {
+    "name": "Görüş",
+    "name_az": "Görüş",
+    "name_ru": "Встреча",
+    "slug": "gorus"
+  }
+},
+{
+  "model": "projects.projectcategory",
+  "pk": 7,
+  "fields": {
+    "name": "Sərgi",
+    "name_az": "Sərgi",
+    "name_ru": "Выставка",
+    "slug": "sergi"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 1,
+  "fields": {
+    "title": "Yay Səhnəsi Açılışı",
+    "title_az": "Yay Səhnəsi Açılışı",
+    "title_ru": "Открытие летней сцены",
+    "slug": "yay-sehnesi-acilisi",
+    "category": 1,
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=900&q=80",
+    "meta_primary": "Bakı Bulvarı",
+    "meta_primary_az": "Bakı Bulvarı",
+    "meta_primary_ru": "Бакинский бульвар",
+    "meta_secondary": "8 000 qonaq",
+    "meta_secondary_az": "8 000 qonaq",
+    "meta_secondary_ru": "8 000 гостей",
+    "description": "Bakı Bulvarında açıq hava konsert səhnəsinin böyük açılış şousu — tam işıq, səs və prodakşn.",
+    "description_az": "Bakı Bulvarında açıq hava konsert səhnəsinin böyük açılış şousu — tam işıq, səs və prodakşn.",
+    "description_ru": "Большое открытие концертной сцены на Бакинском бульваре — полный свет, звук и продакшн.",
+    "is_featured": true,
+    "gradient_key": "warm",
+    "order": 1,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.363Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 2,
+  "fields": {
+    "title": "Neon Nights Festival",
+    "title_az": "Neon Nights Festival",
+    "title_ru": "Neon Nights Festival",
+    "slug": "neon-nights-festival",
+    "category": 2,
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=900&q=80",
+    "meta_primary": "Lazer & İşıq",
+    "meta_primary_az": "Lazer & İşıq",
+    "meta_primary_ru": "Лазер и свет",
+    "meta_secondary": "2 gün",
+    "meta_secondary_az": "2 gün",
+    "meta_secondary_ru": "2 дня",
+    "description": "İki günlük lazer və işıq şousu — proqramlaşdırılan effektlər və atmosfer dizaynı.",
+    "description_az": "İki günlük lazer və işıq şousu — proqramlaşdırılan effektlər və atmosfer dizaynı.",
+    "description_ru": "Двухдневное лазерное и световое шоу — программируемые эффекты и атмосферный дизайн.",
+    "is_featured": true,
+    "gradient_key": "cool",
+    "order": 2,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.371Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 3,
+  "fields": {
+    "title": "Caspian Business Forum",
+    "title_az": "Caspian Business Forum",
+    "title_ru": "Caspian Business Forum",
+    "slug": "caspian-business-forum",
+    "category": 3,
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=900&q=80",
+    "meta_primary": "LED Wall",
+    "meta_primary_az": "LED Wall",
+    "meta_primary_ru": "LED-экран",
+    "meta_secondary": "1 200 iştirakçı",
+    "meta_secondary_az": "1 200 iştirakçı",
+    "meta_secondary_ru": "1 200 участников",
+    "description": "Böyük korporativ konfrans — LED ekran, sinxron tərcümə sistemi və tam zal qurulumu.",
+    "description_az": "Böyük korporativ konfrans — LED ekran, sinxron tərcümə sistemi və tam zal qurulumu.",
+    "description_ru": "Крупная корпоративная конференция — LED-экран, система синхронного перевода и полная компоновка зала.",
+    "is_featured": true,
+    "gradient_key": "hot",
+    "order": 3,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.378Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 4,
+  "fields": {
+    "title": "Arena Live Session",
+    "title_az": "Arena Live Session",
+    "title_ru": "Arena Live Session",
+    "slug": "arena-live-session",
+    "category": 1,
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&w=900&q=80",
+    "meta_primary": "Line Array",
+    "meta_primary_az": "Line Array",
+    "meta_primary_ru": "Line Array",
+    "meta_secondary": "Canlı yayım",
+    "meta_secondary_az": "Canlı yayım",
+    "meta_secondary_ru": "Прямая трансляция",
+    "description": "Line-array səs sistemi ilə canlı yayımlanan arena konserti.",
+    "description_az": "Line-array səs sistemi ilə canlı yayımlanan arena konserti.",
+    "description_ru": "Концерт на арене с системой line-array и прямой трансляцией.",
+    "is_featured": true,
+    "gradient_key": "cool",
+    "order": 4,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.384Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 5,
+  "fields": {
+    "title": "Gala Awards Night",
+    "title_az": "Gala Awards Night",
+    "title_ru": "Gala Awards Night",
+    "slug": "gala-awards-night",
+    "category": 4,
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=900&q=80",
+    "meta_primary": "Səhnə & Işıq",
+    "meta_primary_az": "Səhnə & Işıq",
+    "meta_primary_ru": "Сцена и свет",
+    "meta_secondary": "Korporativ",
+    "meta_secondary_az": "Korporativ",
+    "meta_secondary_ru": "Корпоратив",
+    "description": "Korporativ mükafat mərasimi — səhnə dizaynı, işıq şousu və konfeti finalı.",
+    "description_az": "Korporativ mükafat mərasimi — səhnə dizaynı, işıq şousu və konfeti finalı.",
+    "description_ru": "Корпоративная церемония награждения — дизайн сцены, световое шоу и финал с конфетти.",
+    "is_featured": true,
+    "gradient_key": "warm",
+    "order": 5,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.392Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 6,
+  "fields": {
+    "title": "Solo Tour — Bakı",
+    "title_az": "Solo Tour — Bakı",
+    "title_ru": "Сольный тур — Баку",
+    "slug": "solo-tour-baki",
+    "category": 1,
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=80",
+    "meta_primary": "Tam prodakşn",
+    "meta_primary_az": "Tam prodakşn",
+    "meta_primary_ru": "Полный продакшн",
+    "meta_secondary": "Turne",
+    "meta_secondary_az": "Turne",
+    "meta_secondary_ru": "Тур",
+    "description": "Solo ifaçının Bakı dayanacağı — tam prodakşn dəstəyi ilə turne konserti.",
+    "description_az": "Solo ifaçının Bakı dayanacağı — tam prodakşn dəstəyi ilə turne konserti.",
+    "description_ru": "Бакинская остановка сольного тура — концерт с полной продакшн-поддержкой.",
+    "is_featured": true,
+    "gradient_key": "hot",
+    "order": 6,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.400Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 7,
+  "fields": {
+    "title": "Partner Meeting Day",
+    "title_az": "Partner Meeting Day",
+    "title_ru": "Partner Meeting Day",
+    "slug": "partner-meeting-day",
+    "category": 6,
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=900&q=80",
+    "meta_primary": "Zal quruluşu",
+    "meta_primary_az": "Zal quruluşu",
+    "meta_primary_ru": "Компоновка зала",
+    "meta_secondary": "Hibrid",
+    "meta_secondary_az": "Hibrid",
+    "meta_secondary_ru": "Гибридный формат",
+    "description": "Hibrid formatda partnyor görüşü — zal quruluşu və onlayn yayım inteqrasiyası.",
+    "description_az": "Hibrid formatda partnyor görüşü — zal quruluşu və onlayn yayım inteqrasiyası.",
+    "description_ru": "Встреча партнёров в гибридном формате — компоновка зала и интеграция онлайн-трансляции.",
+    "is_featured": true,
+    "gradient_key": "hot",
+    "order": 7,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.407Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 8,
+  "fields": {
+    "title": "Design Expo Baku",
+    "title_az": "Design Expo Baku",
+    "title_ru": "Design Expo Baku",
+    "slug": "design-expo-baku",
+    "category": 7,
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&q=80",
+    "meta_primary": "Stend & Işıq",
+    "meta_primary_az": "Stend & Işıq",
+    "meta_primary_ru": "Стенд и свет",
+    "meta_secondary": "4 gün",
+    "meta_secondary_az": "4 gün",
+    "meta_secondary_ru": "4 дня",
+    "description": "4 günlük dizayn sərgisi — stend qurulumu və akvent işıqlandırma həlləri.",
+    "description_az": "4 günlük dizayn sərgisi — stend qurulumu və akvent işıqlandırma həlləri.",
+    "description_ru": "Четырёхдневная дизайн-выставка — монтаж стендов и акцентное освещение.",
+    "is_featured": true,
+    "gradient_key": "cool",
+    "order": 8,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.413Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 9,
+  "fields": {
+    "title": "Caspian Beats Open Air",
+    "title_az": "Caspian Beats Open Air",
+    "title_ru": "Caspian Beats Open Air",
+    "slug": "caspian-beats-open-air",
+    "category": 5,
+    "image": "",
+    "image_url": "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=900&q=80",
+    "meta_primary": "Açıq hava",
+    "meta_primary_az": "Açıq hava",
+    "meta_primary_ru": "Открытая площадка",
+    "meta_secondary": "12 000 qonaq",
+    "meta_secondary_az": "12 000 qonaq",
+    "meta_secondary_ru": "12 000 гостей",
+    "description": "İrimiqyaslı açıq hava musiqi festivalı — çoxsəhnəli quruluş və tam texniki dəstək.",
+    "description_az": "İrimiqyaslı açıq hava musiqi festivalı — çoxsəhnəli quruluş və tam texniki dəstək.",
+    "description_ru": "Крупный музыкальный фестиваль под открытым небом — мультисценическая структура и полная техническая поддержка.",
+    "is_featured": true,
+    "gradient_key": "warm",
+    "order": 9,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.420Z"
+  }
+},
+{
+  "model": "team.teammember",
+  "pk": 1,
+  "fields": {
+    "name": "Anar Səlimov",
+    "slug": "anar-selimov",
+    "role": "Baş Prodakşn Direktoru",
+    "role_az": "Baş Prodakşn Direktoru",
+    "role_ru": "Главный директор продакшна",
+    "photo": "",
+    "photo_url": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80",
+    "bio": "10+ illik təcrübə ilə irimiqyaslı tədbirlərin ucdan-uca idarə edilməsinə cavabdehdir.",
+    "bio_az": "10+ illik təcrübə ilə irimiqyaslı tədbirlərin ucdan-uca idarə edilməsinə cavabdehdir.",
+    "bio_ru": "С опытом более 10 лет отвечает за сквозное управление масштабными мероприятиями.",
+    "linkedin_url": "",
+    "instagram_url": "",
+    "order": 1,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.430Z"
+  }
+},
+{
+  "model": "team.teammember",
+  "pk": 2,
+  "fields": {
+    "name": "Leyla Hüseynova",
+    "slug": "leyla-huseynova",
+    "role": "Kreativ Direktor",
+    "role_az": "Kreativ Direktor",
+    "role_ru": "Креативный директор",
+    "photo": "",
+    "photo_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80",
+    "bio": "Konsepsiyadan vizual dünyaya qədər hər layihənin kreativ istiqamətini müəyyən edir.",
+    "bio_az": "Konsepsiyadan vizual dünyaya qədər hər layihənin kreativ istiqamətini müəyyən edir.",
+    "bio_ru": "Определяет творческое направление каждого проекта — от концепции до визуального мира.",
+    "linkedin_url": "",
+    "instagram_url": "",
+    "order": 2,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.436Z"
+  }
+},
+{
+  "model": "team.teammember",
+  "pk": 3,
+  "fields": {
+    "name": "Rəşad Quliyev",
+    "slug": "resad-quliyev",
+    "role": "Baş Səs Mühəndisi",
+    "role_az": "Baş Səs Mühəndisi",
+    "role_ru": "Главный звукоинженер",
+    "photo": "",
+    "photo_url": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80",
+    "bio": "Line-array sistemləri və zal akustikası üzrə ixtisaslaşmış mühəndis.",
+    "bio_az": "Line-array sistemləri və zal akustikası üzrə ixtisaslaşmış mühəndis.",
+    "bio_ru": "Инженер, специализирующийся на системах line-array и акустике залов.",
+    "linkedin_url": "",
+    "instagram_url": "",
+    "order": 3,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.442Z"
+  }
+},
+{
+  "model": "team.teammember",
+  "pk": 4,
+  "fields": {
+    "name": "Nigar Məmmədli",
+    "slug": "nigar-memmedli",
+    "role": "Tədbir Meneceri",
+    "role_az": "Tədbir Meneceri",
+    "role_ru": "Менеджер мероприятий",
+    "photo": "",
+    "photo_url": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80",
+    "bio": "Planlaşdırmadan icraya qədər tədbir günü axınının koordinatoru.",
+    "bio_az": "Planlaşdırmadan icraya qədər tədbir günü axınının koordinatoru.",
+    "bio_ru": "Координатор всего процесса мероприятия — от планирования до реализации.",
+    "linkedin_url": "",
+    "instagram_url": "",
+    "order": 4,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.447Z"
+  }
+},
+{
+  "model": "team.teammember",
+  "pk": 5,
+  "fields": {
+    "name": "Elvin Bayramov",
+    "slug": "elvin-bayramov",
+    "role": "İşıq Dizayneri",
+    "role_az": "İşıq Dizayneri",
+    "role_ru": "Дизайнер света",
+    "photo": "",
+    "photo_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
+    "bio": "Proqramlaşdırılan işıq şouları və atmosfer dizaynı üzrə çalışır.",
+    "bio_az": "Proqramlaşdırılan işıq şouları və atmosfer dizaynı üzrə çalışır.",
+    "bio_ru": "Работает над программируемыми световыми шоу и атмосферным дизайном.",
+    "linkedin_url": "",
+    "instagram_url": "",
+    "order": 5,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.453Z"
+  }
+},
+{
+  "model": "team.teammember",
+  "pk": 6,
+  "fields": {
+    "name": "Aysel Rəhimli",
+    "slug": "aysel-rehimli",
+    "role": "Səhnə Rejissoru",
+    "role_az": "Səhnə Rejissoru",
+    "role_ru": "Режиссёр сцены",
+    "photo": "",
+    "photo_url": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=600&q=80",
+    "bio": "Tədbir günü səhnə arxası axınını və vaxt cədvəlini idarə edir.",
+    "bio_az": "Tədbir günü səhnə arxası axınını və vaxt cədvəlini idarə edir.",
+    "bio_ru": "Управляет закулисным процессом и тайм-кодом в день мероприятия.",
+    "linkedin_url": "",
+    "instagram_url": "",
+    "order": 6,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.458Z"
+  }
+},
+{
+  "model": "team.teammember",
+  "pk": 7,
+  "fields": {
+    "name": "Tural Əliyev",
+    "slug": "tural-eliyev",
+    "role": "Aparıcı / Spiker",
+    "role_az": "Aparıcı / Spiker",
+    "role_ru": "Ведущий / Спикер",
+    "photo": "",
+    "photo_url": "https://images.unsplash.com/photo-1610652492500-ded49ceeb378?auto=format&fit=crop&w=600&q=80",
+    "bio": "Konsert və korporativ tədbirlərdə səhnə aparıcılığı edir.",
+    "bio_az": "Konsert və korporativ tədbirlərdə səhnə aparıcılığı edir.",
+    "bio_ru": "Ведёт концертные и корпоративные мероприятия на сцене.",
+    "linkedin_url": "",
+    "instagram_url": "",
+    "order": 7,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.463Z"
+  }
+},
+{
+  "model": "team.teammember",
+  "pk": 8,
+  "fields": {
+    "name": "Günel Xəlilova",
+    "slug": "gunel-xelilova",
+    "role": "Kommunikasiya Rəhbəri",
+    "role_az": "Kommunikasiya Rəhbəri",
+    "role_ru": "Руководитель коммуникаций",
+    "photo": "",
+    "photo_url": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
+    "bio": "Müştərilərlə əlaqə və layihə kommunikasiyasının aparılmasına cavabdehdir.",
+    "bio_az": "Müştərilərlə əlaqə və layihə kommunikasiyasının aparılmasına cavabdehdir.",
+    "bio_ru": "Отвечает за коммуникацию с клиентами и ведение проектной коммуникации.",
+    "linkedin_url": "",
+    "instagram_url": "",
+    "order": 8,
+    "meta_title": "",
+    "meta_title_az": null,
+    "meta_title_ru": null,
+    "meta_description": "",
+    "meta_description_az": null,
+    "meta_description_ru": null,
+    "updated_at": "2026-09-03T19:22:27.469Z"
+  }
+}
+]
