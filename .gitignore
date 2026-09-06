@@ -11,3 +11,4 @@ staticfiles/
 .idea/
 locale/*/LC_MESSAGES/*.mo
 .claude/settings.local.json
+logs/

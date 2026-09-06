@@ -235,14 +235,46 @@ AI_OPENAI_API_KEY = env("AI_OPENAI_API_KEY", default="")
 AI_ANTHROPIC_API_KEY = env("AI_ANTHROPIC_API_KEY", default="")
 
 
+# On shared hosting stderr disappears into a log the panel may not surface, so
+# unhandled exceptions also go to a file inside the project that is readable
+# over SSH or the file manager. If the directory cannot be created (read-only
+# deploy), logging quietly falls back to the console alone.
+_LOG_DIR = BASE_DIR / "logs"
+_error_handlers = ["console"]
+_file_handler = {}
+try:
+    _LOG_DIR.mkdir(exist_ok=True)
+    _file_handler = {
+        "error_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": str(_LOG_DIR / "django-error.log"),
+            "maxBytes": 2 * 1024 * 1024,
+            "backupCount": 3,
+            "level": "ERROR",
+            "formatter": "verbose",
+        }
+    }
+    _error_handlers.append("error_file")
+except OSError:
+    pass
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} {levelname} {name} {message}",
+            "style": "{",
+        },
+    },
     "handlers": {
         "console": {"class": "logging.StreamHandler"},
+        **_file_handler,
     },
-    "root": {"handlers": ["console"], "level": "WARNING"},
+    "root": {"handlers": _error_handlers, "level": "WARNING"},
     "loggers": {
+        # The traceback behind any 500 lands here.
+        "django.request": {"handlers": _error_handlers, "level": "ERROR", "propagate": False},
         "contact": {"handlers": ["console"], "level": "INFO", "propagate": False},
         "core.cache": {"handlers": ["console"], "level": "WARNING", "propagate": False},
     },

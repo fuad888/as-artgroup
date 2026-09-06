@@ -217,3 +217,40 @@ class IndexingDeployCheckTests(BaseTestCase):
     def test_it_says_nothing_during_local_development(self):
         self._set_indexing(False)
         self.assertEqual(self._run(), [])
+
+
+class ErrorVisibilityTests(BaseTestCase):
+    """A 500 on shared hosting is only fixable if its traceback is readable."""
+
+    def test_request_errors_are_written_to_a_file_not_just_stderr(self):
+        from django.conf import settings
+
+        handlers = settings.LOGGING["loggers"]["django.request"]["handlers"]
+        self.assertIn("error_file", handlers)
+        handler = settings.LOGGING["handlers"]["error_file"]
+        self.assertEqual(handler["level"], "ERROR")
+        self.assertTrue(handler["filename"].endswith("django-error.log"))
+
+    def test_the_error_log_rotates_so_it_cannot_fill_the_disk(self):
+        from django.conf import settings
+
+        handler = settings.LOGGING["handlers"]["error_file"]
+        self.assertEqual(handler["class"], "logging.handlers.RotatingFileHandler")
+        self.assertGreater(handler["maxBytes"], 0)
+        self.assertGreater(handler["backupCount"], 0)
+
+    def test_an_exception_reaches_the_log_with_its_traceback(self):
+        import logging
+        from pathlib import Path
+
+        from django.conf import settings
+
+        path = Path(settings.LOGGING["handlers"]["error_file"]["filename"])
+        before = path.stat().st_size if path.exists() else 0
+        try:
+            raise ValueError("probe-for-the-log")
+        except ValueError:
+            logging.getLogger("django.request").exception("probe")
+        written = path.read_text()[before:]
+        self.assertIn("probe-for-the-log", written)
+        self.assertIn("Traceback", written)
