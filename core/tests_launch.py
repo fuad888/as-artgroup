@@ -185,3 +185,35 @@ class PageWeightTests(SeededTestCase):
         self.assertEqual(responsive_srcset("/media/seo/upload.png"), "")
         self.assertEqual(responsive_srcset(""), "")
         self.assertIn("480w", responsive_srcset("https://images.unsplash.com/photo-1?w=2400"))
+
+
+class IndexingDeployCheckTests(BaseTestCase):
+    """The indexing switch lives in the database, so Django's own --deploy
+    checks cannot see it. This one makes a silent misconfiguration loud."""
+
+    def _run(self):
+        from core.checks import indexing_should_be_on_in_production
+
+        return indexing_should_be_on_in_production(None)
+
+    def _set_indexing(self, allowed):
+        seo = SeoSettings.load()
+        seo.allow_indexing = allowed
+        seo.save()
+
+    @override_settings(DEBUG=False)
+    def test_it_warns_when_a_live_site_is_not_indexable(self):
+        self._set_indexing(False)
+        warnings = self._run()
+        self.assertEqual([w.id for w in warnings], ["core.W001"])
+        self.assertIn("seosettings", warnings[0].hint)
+
+    @override_settings(DEBUG=False)
+    def test_it_stays_quiet_once_indexing_is_on(self):
+        self._set_indexing(True)
+        self.assertEqual(self._run(), [])
+
+    @override_settings(DEBUG=True)
+    def test_it_says_nothing_during_local_development(self):
+        self._set_indexing(False)
+        self.assertEqual(self._run(), [])
