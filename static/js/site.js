@@ -20,6 +20,10 @@
     reveals.forEach(function(el){ el.classList.add('in'); });
   }
 
+  /* Tells the inline head script that the reveal machinery is armed. Without
+     this flag it drops the "js" class on load and shows everything outright. */
+  window.__siteReady = true;
+
   /* ---- stat counters ---- */
   var counters = document.querySelectorAll('.count');
   var runCount = function(el){

@@ -61,6 +61,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Last in the list, so it runs first on the way out and can see the
+    # finished response before anything else inspects its headers.
+    "core.middleware.HtmlCacheControlMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"

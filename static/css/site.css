@@ -616,3 +616,10 @@ a,button,.dock a,.navbtn{touch-action:manipulation}
   .mobnav{transition:none}
   .navbtn__bars,.navbtn__bars::before,.navbtn__bars::after{transition:none}
 }
+
+/* ---- 7. Never leave the page blank ----
+   .rv elements start at opacity:0 and only become visible when site.js adds
+   .in. If that file is blocked, fails to parse, or never arrives, the whole
+   site below the hero would render empty. The document is marked "js" only
+   while that reveal machinery is actually alive. */
+html:not(.js) .rv{opacity:1;transform:none}

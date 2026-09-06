@@ -112,3 +112,47 @@ class MobilePerformanceRegressionTests(BaseTestCase):
 
     def test_no_debug_logging_of_submitted_form_data(self):
         self.assertNotIn("console.log", self.js)
+
+
+class StaleDeployTests(BaseTestCase):
+    """A page with no Cache-Control is cached heuristically, which is how a
+    phone keeps running an old build after a deploy."""
+
+    def test_html_pages_declare_an_explicit_caching_policy(self):
+        for path in ["/az/", "/ru/", "/az/layiheler/", "/az/elaqe/"]:
+            with self.subTest(path=path):
+                header = self.client.get(path).get("Cache-Control", "")
+                self.assertIn("no-cache", header)
+
+    def test_pages_are_never_offered_to_a_shared_cache(self):
+        """They embed a per-visitor CSRF token, so they are not shareable."""
+        header = self.client.get("/az/").get("Cache-Control", "")
+        self.assertIn("private", header)
+        self.assertNotIn("public", header)
+
+    def test_a_view_that_sets_its_own_policy_keeps_it(self):
+        header = self.client.get("/api/v1/core/site-settings/").get("Cache-Control", "")
+        self.assertIn("public", header)
+
+
+class NoJavascriptFallbackTests(BaseTestCase):
+    """Content below the hero is opacity:0 until site.js reveals it. If that
+    file never runs the page must still be readable, not blank."""
+
+    @classmethod
+    def setUpTestData(cls):
+        call_command("seed_all", stdout=StringIO())
+
+    def test_reveal_elements_are_visible_without_the_js_marker(self):
+        css = CSS.read_text()
+        self.assertRegex(css, r"html:not\(\.js\)\s*\.rv\{[^}]*opacity:1")
+
+    def test_the_document_is_only_marked_js_from_a_script(self):
+        html = self.client.get("/az/").content.decode()
+        self.assertIn("document.documentElement.className += ' js'", html)
+        self.assertNotIn('<html lang="az" class="js"', html)
+
+    def test_the_marker_is_withdrawn_when_site_js_did_not_run(self):
+        html = self.client.get("/az/").content.decode()
+        self.assertIn("__siteReady", html)
+        self.assertIn("__siteReady = true", JS.read_text())

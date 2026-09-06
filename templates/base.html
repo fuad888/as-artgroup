@@ -8,6 +8,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  /* Everything below the hero starts at opacity:0 and is revealed by site.js.
+     Marking the document here means a visitor whose browser never runs that
+     file gets a readable page instead of a blank one; the load handler covers
+     the case where this inline script ran but site.js did not. */
+  document.documentElement.className += ' js';
+  addEventListener('load', function () {
+    if (!window.__siteReady) {
+      document.documentElement.className =
+        document.documentElement.className.replace(/\bjs\b/, '');
+    }
+  });
+</script>
 <link rel="stylesheet" href="{% static 'css/site.css' %}">
 </head>
 <body>

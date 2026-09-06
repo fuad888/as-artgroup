@@ -164,6 +164,7 @@ class DesignFidelityTests(SeededPageTestCase):
             ".navbtn",  # new element, display:none until a mobile query shows it
             "a,button,input,textarea,select,summary",  # -webkit-tap-highlight-color
             "a,button,.dock a,.navbtn",  # touch-action
+            "html:not(.js) .rv",  # keeps the page readable when site.js never runs
         }
         self.assertEqual(
             [s for s in selectors if s not in allowed],
