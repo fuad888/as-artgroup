@@ -1,6 +1,7 @@
 import json
 
 from django import template
+from django.templatetags.static import static
 from django.urls import translate_url
 from django.utils.safestring import mark_safe
 
@@ -27,6 +28,27 @@ def canonical_url(context):
     if request is None:
         return ""
     return request.build_absolute_uri(request.path)
+
+
+@register.simple_tag(takes_context=True)
+def og_image_url(context, override=None):
+    """Absolute URL of the social preview image.
+
+    Facebook, WhatsApp and LinkedIn reject a relative og:image, and an uploaded
+    ImageField gives exactly that (/media/...), so every candidate is resolved
+    against the current host. Falls back to the bundled default, which means a
+    shared link always carries a preview even before anyone uploads one.
+    """
+    request = context.get("request")
+    if request is None:
+        return ""
+
+    seo_settings = context.get("seo_settings")
+    candidate = override or (seo_settings and seo_settings.display_og_image_url)
+    if not candidate:
+        candidate = static("img/og-default.png")
+
+    return request.build_absolute_uri(candidate)
 
 
 @register.simple_tag(takes_context=True)

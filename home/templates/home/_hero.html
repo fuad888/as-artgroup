@@ -1,8 +1,12 @@
-{% load i18n %}
+{% load i18n images %}
 <!-- ===== HERO ===== -->
 <section class="hero" id="ana">
   <div class="hero__bg">
+    {% responsive_srcset hero.display_image_url as hero_srcset %}
+    {# The hero fills the viewport and is the LCP element: never lazy, and fetched ahead of the other subresources. #}
     <img src="{{ hero.display_image_url }}"
+         {% if hero_srcset %}srcset="{{ hero_srcset }}" sizes="100vw"{% endif %}
+         fetchpriority="high" decoding="async"
          alt="{{ hero.heading_line1 }} {{ hero.heading_line2 }} {{ hero.heading_line3 }}">
   </div>
 
