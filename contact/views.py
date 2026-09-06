@@ -26,7 +26,8 @@ def contact_submit(request):
             )
             return redirect(reverse("contact:page"))
 
-        form = ContactMessageForm(request.POST)
+        # request.FILES too, or the attachment is silently dropped.
+        form = ContactMessageForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(

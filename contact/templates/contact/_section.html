@@ -12,6 +12,7 @@
       <div class="panel rv" data-d="1">
         {# JS posts to /api/v1/contact/messages/; action/method keep it working without JS. #}
         <form id="contactForm" action="{% url 'contact:submit' %}" method="post" novalidate
+              enctype="multipart/form-data"
               data-endpoint="/api/v1/contact/messages/"
               data-msg-required="{% trans 'Zəhmət olmasa bütün sahələri doldurun.' %}"
               data-msg-email="{% trans 'Email ünvanı düzgün görünmür.' %}"
@@ -20,7 +21,10 @@
               data-msg-success="{% trans 'Təşəkkürlər, {name}! Sorğunuz qeydə alındı — 24 saat ərzində sizinlə əlaqə saxlayacağıq.' %}"
               data-msg-throttled="{% trans 'Çox sayda sorğu göndərildi. Bir qədər sonra yenidən cəhd edin.' %}"
               data-msg-error="{% trans 'Göndərmək mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.' %}"
-              data-msg-offline="{% trans 'Şəbəkə xətası. İnternet bağlantınızı yoxlayın.' %}">
+              data-msg-offline="{% trans 'Şəbəkə xətası. İnternet bağlantınızı yoxlayın.' %}"
+              data-msg-filetype="{% trans 'Yalnız PDF, Word və Excel faylları qəbul olunur.' %}"
+              data-msg-filesize="{% trans 'Fayl çox böyükdür. Maksimum 10 MB.' %}"
+              data-max-file-mb="10">
           {% csrf_token %}
           <div class="field">
             <label for="ad">{% trans "Ad və Soyad" %}</label>
@@ -39,6 +43,17 @@
           <div class="field">
             <label for="mesaj">{% trans "Mesaj" %}</label>
             <textarea id="mesaj" name="message" placeholder="{% trans 'Tədbirin növü, tarixi, məkanı və gözlənilən qonaq sayı...' %}" required></textarea>
+          </div>
+          <div class="field field--file">
+            <label for="fayl">{% trans "Təqdimat və ya brif" %} <span class="field__hint">{% trans "istəyə bağlı" %}</span></label>
+            {# The visible control is the label; the input itself stays keyboard reachable. #}
+            <input id="fayl" name="attachment" type="file" class="file-input"
+                   accept=".pdf,.doc,.docx,.xls,.xlsx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <label for="fayl" class="file-drop" id="fileDrop">
+              <svg width="18" height="18"><use href="#i-arrow"/></svg>
+              <span class="file-drop__text" data-empty="{% trans 'PDF, Word və ya Excel seçin' %}">{% trans "PDF, Word və ya Excel seçin" %}</span>
+            </label>
+            <button type="button" class="file-clear" id="fileClear" hidden aria-label="{% trans 'Faylı sil' %}">&times;</button>
           </div>
           <button type="submit" class="btn btn--grad" style="width:100%">
             {% trans "Göndər" %} <svg width="15" height="15"><use href="#i-arrow"/></svg>

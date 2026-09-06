@@ -26,6 +26,45 @@
         </div>
       </div>
     </div>
+
+    {# Gallery sits under the text, per the brief, and only when there is one. #}
+    {% if project.gallery.all %}
+    <div class="gallery rv" data-d="2">
+      <h3 class="gallery__title">{% trans "Qalereya" %}</h3>
+      <div class="gallery__grid" id="gallery" role="list">
+        {% for item in project.gallery.all %}
+        <button type="button" class="gallery__item" role="listitem"
+                data-index="{{ forloop.counter0 }}"
+                data-kind="{{ item.kind }}"
+                data-full="{{ item.display_image_url }}"
+                {% if item.is_file_video %}data-video="{{ item.display_video_url }}"{% endif %}
+                {% if item.is_embed %}data-embed="{{ item.embed_url }}"{% endif %}
+                data-caption="{{ item.caption }}"
+                aria-label="{% if item.caption %}{{ item.caption }}{% else %}{{ project.title }} {{ forloop.counter }}{% endif %}">
+          <img loading="lazy" decoding="async" src="{{ item.display_image_url }}"
+               alt="{% if item.caption %}{{ item.caption }}{% else %}{{ project.title }}{% endif %}">
+          {% if item.is_video %}<span class="gallery__play" aria-hidden="true"></span>{% endif %}
+          {% if item.caption %}<span class="gallery__cap">{{ item.caption }}</span>{% endif %}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
   </div>
 </section>
+
+{% if project.gallery.all %}
+{# Lightbox shell. Empty until opened, so nothing here costs anything up front. #}
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true"
+     aria-label="{% trans 'Qalereya' %}">
+  <button type="button" class="lightbox__close" id="lbClose" aria-label="{% trans 'Bağla' %}">&times;</button>
+  <button type="button" class="lightbox__nav lightbox__nav--prev" id="lbPrev" aria-label="{% trans 'Əvvəlki' %}">&#8249;</button>
+  <button type="button" class="lightbox__nav lightbox__nav--next" id="lbNext" aria-label="{% trans 'Növbəti' %}">&#8250;</button>
+  <figure class="lightbox__stage">
+    <div class="lightbox__media" id="lbMedia"></div>
+    <figcaption class="lightbox__caption" id="lbCaption"></figcaption>
+  </figure>
+  <div class="lightbox__counter" id="lbCounter"></div>
+</div>
+{% endif %}
 {% endblock %}

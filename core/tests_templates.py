@@ -17,16 +17,23 @@ def body(html):
     return match.group(1) if match else html
 
 
-MOBILE_NAV_MARKUP = (
-    r'<nav class="mobnav".*?</nav>',
-    r'<button type="button" class="navbtn".*?</button>',
+# Components added on purpose after the refactor. Stripping them keeps the
+# original fidelity guarantees exact instead of loosening them into vagueness.
+ADDED_COMPONENTS = (
+    r'<nav class="mobnav".*?</nav>',                      # mobile menu
+    r'<button type="button" class="navbtn".*?</button>',  # its toggle
+    r'<div class="field field--file">.*?</div>\s*<button type="submit"',  # attachment
+    r'<a class="eq-card__link".*?</a>',                   # equipment tile link
+    r'<div class="member__contact">.*?</div>',            # optional team contacts
+    r'<div class="gallery rv".*?</div>\s*</div>\s*</div>',  # project gallery
+    r'<div class="lightbox".*?</div>\s*</div>',           # its lightbox
 )
 
 
-def without_mobile_nav(html):
-    """The mobile menu is a deliberate addition. Removing it lets the original
-    fidelity guarantees stay exact instead of being loosened into vagueness."""
-    for pattern in MOBILE_NAV_MARKUP:
+def without_added_components(html):
+    """Remove the deliberate additions so what remains is the original page."""
+    html = re.sub(ADDED_COMPONENTS[2], "<button type=\"submit\"", html, flags=re.S)
+    for pattern in ADDED_COMPONENTS[:2] + ADDED_COMPONENTS[3:]:
         html = re.sub(pattern, "", html, flags=re.S)
     return html
 
@@ -87,7 +94,7 @@ class DesignFidelityTests(SeededPageTestCase):
         anything the stylesheet actually targets must be used identically."""
         stylesheet = (Path(settings.BASE_DIR) / "static/css/site.css").read_text()
         original = class_usage(self.original)
-        rendered = class_usage(without_mobile_nav(self.rendered))
+        rendered = class_usage(without_added_components(self.rendered))
 
         drifted = {}
         for name in set(original) | set(rendered):
@@ -101,7 +108,7 @@ class DesignFidelityTests(SeededPageTestCase):
 
     def test_added_classes_are_javascript_hooks_only(self):
         stylesheet = (Path(settings.BASE_DIR) / "static/css/site.css").read_text()
-        added = set(class_usage(without_mobile_nav(self.rendered))) - set(
+        added = set(class_usage(without_added_components(self.rendered))) - set(
             class_usage(self.original)
         )
         styled = [n for n in added if re.search(r"\.%s\b" % re.escape(n), stylesheet)]
@@ -137,14 +144,17 @@ class DesignFidelityTests(SeededPageTestCase):
             "site.css no longer starts with the original index.html CSS verbatim",
         )
 
-    def test_appended_css_only_reaches_touch_and_small_screens(self):
-        """Everything added after the original block must sit inside a mobile or
-        touch media query, so the desktop rendering is protected structurally
-        rather than by inspection."""
+    def test_appended_css_adds_components_without_redefining_the_original(self):
+        """The original block is preserved verbatim (above), so the remaining
+        risk is an appended rule quietly restyling something that already
+        exists. New component classes are free; touching an original class has
+        to be a deliberate, listed decision."""
         stylesheet = (Path(settings.BASE_DIR) / "static/css/site.css").read_text().strip()
-        tail = re.sub(r"/\*.*?\*/", "", stylesheet[len(self._original_css()):], flags=re.S)
+        original = self._original_css()
+        tail = re.sub(r"/\*.*?\*/", "", stylesheet[len(original):], flags=re.S)
 
-        # Remove each @media block wholesale so only unscoped rules remain.
+        # Media-scoped rules are mobile/touch work and cannot reach the desktop
+        # rendering, so only unscoped rules are examined.
         out, i = [], 0
         while i < len(tail):
             if tail.startswith("@media", i):
@@ -157,19 +167,28 @@ class DesignFidelityTests(SeededPageTestCase):
             out.append(tail[i])
             i += 1
 
-        selectors = [
-            " ".join(s.split()) for s in re.findall(r"([^{}]+)\{", "".join(out)) if s.strip()
-        ]
-        allowed = {
-            ".navbtn",  # new element, display:none until a mobile query shows it
-            "a,button,input,textarea,select,summary",  # -webkit-tap-highlight-color
-            "a,button,.dock a,.navbtn",  # touch-action
-            "html:not(.js) .rv",  # keeps the page readable when site.js never runs
+        original_classes = set(re.findall(r"\.([A-Za-z_][\w-]*)", original))
+        # Deliberate overrides of existing classes, each with a reason.
+        allowed_overrides = {
+            # touch-action on the dock's links
+            "a,button,.dock a,.navbtn",
+            # reveals the content when site.js never runs
+            "html:not(.js) .rv",
+            # ".footer__cols a" outranks ".btn--sm" and ate the button's padding
+            ".footer__cols a.btn",
+            ".footer__cols a.btn:hover",
         }
+
+        offenders = []
+        for selector in re.findall(r"([^{}]+)\{", "".join(out)):
+            selector = " ".join(selector.split())
+            if not selector or selector in allowed_overrides:
+                continue
+            if set(re.findall(r"\.([A-Za-z_][\w-]*)", selector)) & original_classes:
+                offenders.append(selector)
+
         self.assertEqual(
-            [s for s in selectors if s not in allowed],
-            [],
-            "Appended CSS escapes its mobile scope",
+            offenders, [], "Appended CSS restyles original classes without a listed reason"
         )
 
     def test_no_template_comment_leaks_into_the_html(self):

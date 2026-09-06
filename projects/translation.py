@@ -1,6 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import Project, ProjectCategory
+from .models import Project, ProjectCategory, ProjectMedia
 
 
 @register(ProjectCategory)
@@ -18,3 +18,8 @@ class ProjectTranslationOptions(TranslationOptions):
         "meta_title",
         "meta_description",
     )
+
+
+@register(ProjectMedia)
+class ProjectMediaTranslationOptions(TranslationOptions):
+    fields = ("caption",)

@@ -13,7 +13,11 @@ def project_list(request):
 
 
 def project_detail(request, slug):
-    project = get_object_or_404(Project.objects.select_related("category"), slug=slug)
+    # prefetch_related: the gallery is rendered in full, so without this each
+    # item would cost its own query.
+    project = get_object_or_404(
+        Project.objects.select_related("category").prefetch_related("gallery"), slug=slug
+    )
     context = {
         "project": project,
         "seo_title": project.seo_title,

@@ -38,6 +38,12 @@ def build_notification(instance):
             "Mesaj:",
             instance.message,
             "",
+            # A link rather than the bytes: the file can be 10 MB and the
+            # notification must not bounce off a mailbox size limit.
+            f"Əlavə fayl: {instance.attachment.name.rsplit('/', 1)[-1]}"
+            if instance.attachment
+            else "Əlavə fayl: yoxdur",
+            "",
             f"Admin paneldə: {admin_path}",
         ]
     )

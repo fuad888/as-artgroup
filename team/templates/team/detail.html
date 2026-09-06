@@ -19,6 +19,13 @@
       </div>
       <div class="about__text rv" data-d="1">
         {% if member.bio %}<p class="lead">{{ member.bio }}</p>{% endif %}
+        {# Both optional: the block only appears for members who have them. #}
+        {% if member.phone or member.email %}
+        <div class="member__contact">
+          {% if member.phone %}<a href="{{ member.phone_href }}"><svg><use href="#i-phone"/></svg>{{ member.phone }}</a>{% endif %}
+          {% if member.email %}<a href="{{ member.email_href }}"><svg><use href="#i-mail"/></svg>{{ member.email }}</a>{% endif %}
+        </div>
+        {% endif %}
         <div class="member__soc" style="margin-top:24px">
           <a href="{{ member.linkedin_url|default:'#' }}" aria-label="LinkedIn"><svg><use href="#i-in"/></svg></a>
           <a href="{{ member.instagram_url|default:'#' }}" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a>

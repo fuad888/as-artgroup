@@ -83,3 +83,83 @@ class Project(models.Model):
     @property
     def seo_description(self):
         return self.meta_description or Truncator(self.description).chars(160)
+
+
+class ProjectMedia(models.Model):
+    """Extra photos and video for a project, shown only on its detail page.
+
+    Kept in its own table rather than more columns on Project because the count
+    is open-ended and the order matters. Images and video share one model so a
+    single ordered gallery can mix them.
+    """
+
+    IMAGE = "image"
+    VIDEO = "video"
+    KIND_CHOICES = [(IMAGE, "Şəkil"), (VIDEO, "Video")]
+
+    project = models.ForeignKey(Project, related_name="gallery", on_delete=models.CASCADE)
+    kind = models.CharField(max_length=8, choices=KIND_CHOICES, default=IMAGE, verbose_name="Növ")
+    image = models.ImageField(
+        upload_to="projects/gallery/",
+        blank=True,
+        verbose_name="Şəkil",
+        help_text="Video üçün bu, önizləmə (poster) şəkli olur.",
+    )
+    image_url = models.URLField(blank=True, verbose_name="Şəkil linki")
+    video = models.FileField(
+        upload_to="projects/video/", blank=True, verbose_name="Video faylı", help_text="MP4"
+    )
+    video_url = models.URLField(
+        blank=True,
+        verbose_name="Video linki",
+        help_text="YouTube, Vimeo və ya birbaşa .mp4 linki",
+    )
+    caption = models.CharField(max_length=200, blank=True, verbose_name="Başlıq")
+    order = models.PositiveIntegerField(default=0, verbose_name="Sıra")
+
+    class Meta:
+        ordering = ["order", "id"]
+        verbose_name = "Qalereya elementi"
+        verbose_name_plural = "Qalereya (şəkil və video)"
+        indexes = [models.Index(fields=["project", "order"], name="projectmedia_order_idx")]
+
+    def __str__(self):
+        return f"{self.project.title} — {self.get_kind_display()} {self.order}"
+
+    @property
+    def is_video(self):
+        return self.kind == self.VIDEO
+
+    @property
+    def display_image_url(self):
+        """The thumbnail: the uploaded image, the linked one, or — for a video
+        with neither — the project's own cover so the tile is never empty."""
+        return self.image.url if self.image else (self.image_url or self.project.display_image_url)
+
+    @property
+    def display_video_url(self):
+        return self.video.url if self.video else self.video_url
+
+    @property
+    def embed_url(self):
+        """YouTube and Vimeo watch links have to become embed links, otherwise
+        the iframe shows the site's own "refused to connect" page."""
+        url = self.video_url or ""
+        if not url:
+            return ""
+        if "youtube.com/watch" in url and "v=" in url:
+            return "https://www.youtube.com/embed/" + url.split("v=")[1].split("&")[0]
+        if "youtu.be/" in url:
+            return "https://www.youtube.com/embed/" + url.split("youtu.be/")[1].split("?")[0]
+        if "vimeo.com/" in url and "player.vimeo.com" not in url:
+            return "https://player.vimeo.com/video/" + url.rstrip("/").split("/")[-1].split("?")[0]
+        return ""
+
+    @property
+    def is_embed(self):
+        return bool(self.embed_url)
+
+    @property
+    def is_file_video(self):
+        """A direct file plays in <video>; an embed needs an iframe."""
+        return self.is_video and bool(self.display_video_url) and not self.is_embed

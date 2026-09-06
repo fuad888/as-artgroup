@@ -1,3 +1,6 @@
+import re
+from pathlib import Path
+from django.conf import settings
 """Route, error-page and cache-policy coverage for the deployed site."""
 
 from django.core.management import call_command
@@ -118,3 +121,45 @@ class ContactThrottleSharingTests(BaseTestCase):
             response = self.client.post("/az/elaqe/submit/", self.FORM)
         self.assertEqual(response.status_code, 302)
         self.assertIn("/elaqe/", response["Location"])
+
+
+class HiddenOverlayTests(BaseTestCase):
+    """A full-screen overlay that ignores `hidden` swallows every click on the
+    page beneath it, and looks like nothing at all — the lightbox did exactly
+    this. Author CSS outranks the browser's [hidden]{display:none}, so any
+    element rendered with `hidden` whose class sets `display` needs its own
+    [hidden] rule."""
+
+    HIDDEN_TAG = re.compile(r"<\w+[^>]*?\shidden(?=[\s>])[^>]*>", re.S)
+
+    def _templates(self):
+        root = Path(settings.BASE_DIR)
+        for path in root.rglob("*.html"):
+            if any(part in {"venv", "staticfiles", "node_modules"} for part in path.parts):
+                continue
+            yield path
+
+    def test_no_hidden_element_is_forced_visible_by_a_display_rule(self):
+        css = (Path(settings.BASE_DIR) / "static/css/site.css").read_text()
+        offenders = []
+
+        for path in self._templates():
+            for tag in self.HIDDEN_TAG.findall(path.read_text()):
+                classes = re.search(r'class="([^"]*)"', tag)
+                if not classes:
+                    continue
+                for name in classes.group(1).split():
+                    sets_display = re.search(
+                        r"\.%s\s*\{[^}]*display\s*:" % re.escape(name), css
+                    )
+                    has_guard = re.search(r"\.%s\[hidden\]" % re.escape(name), css)
+                    if sets_display and not has_guard:
+                        offenders.append(f"{path.name}: .{name}")
+
+        self.assertEqual(
+            offenders, [], "hidden element kept visible by a display rule: %s" % offenders
+        )
+
+    def test_the_lightbox_specifically_respects_hidden(self):
+        css = (Path(settings.BASE_DIR) / "static/css/site.css").read_text()
+        self.assertRegex(css, r"\.lightbox\[hidden\]\s*\{[^}]*display\s*:\s*none")

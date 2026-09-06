@@ -1,6 +1,6 @@
 from django.db import models
 
-from .validators import validate_phone
+from .validators import validate_attachment, validate_phone
 
 
 class ContactMessage(models.Model):
@@ -8,6 +8,14 @@ class ContactMessage(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=32, validators=[validate_phone])
     message = models.TextField()
+    # Optional: a customer may attach a brief or presentation.
+    attachment = models.FileField(
+        upload_to="contact/%Y/%m/",
+        blank=True,
+        validators=[validate_attachment],
+        verbose_name="Əlavə fayl",
+        help_text="PDF, Word və ya Excel — maksimum 10 MB",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     is_handled = models.BooleanField(default=False)
 

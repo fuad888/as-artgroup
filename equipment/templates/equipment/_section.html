@@ -17,6 +17,9 @@
         <h3>{{ category.title }}</h3>
         <p>{{ category.description }}</p>
         <ul>{% for tag in category.tags.all %}<li>{{ tag.label }}</li>{% endfor %}</ul>
+        {# Stretched over the card: whole tile clickable, grid layout untouched. #}
+        <a class="eq-card__link" href="{% url 'equipment:page' %}"
+           aria-label="{{ category.title }} — {% trans "ətraflı" %}"></a>
       </article>
       {% endfor %}
     </div>

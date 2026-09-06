@@ -7,6 +7,7 @@ from .models import TeamMember
 # Slug is generated server-side by az_slugify; leave it empty to auto-fill.
 @admin.register(TeamMember)
 class TeamMemberAdmin(TranslationAdmin):
-    list_display = ("name", "role", "order")
+    list_display = ("name", "role", "phone", "email", "order")
     list_editable = ("order",)
     ordering = ("order",)
+    search_fields = ("name", "role", "email", "phone")

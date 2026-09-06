@@ -1,8 +1,10 @@
+import re
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.static import serve
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,5 +29,13 @@ urlpatterns += i18n_patterns(
     path("elaqe/", include("contact.urls")),
 )
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Uploaded files (contact attachments, project galleries) live under MEDIA_ROOT.
+# django.conf.urls.static.static() is a no-op unless DEBUG, and this deployment
+# has no nginx in front to map the URL, so every upload would 404 in production.
+# The route is therefore built explicitly. django.views.static.serve resolves
+# through safe_join, so a path cannot escape MEDIA_ROOT. Handing /media/ to the
+# web server is faster and stays preferable; this keeps uploads working without it.
+urlpatterns += [
+    re_path(rf"^{re.escape(settings.MEDIA_URL.strip('/'))}/(?P<path>.*)$", serve,
+            {"document_root": settings.MEDIA_ROOT}),
+]

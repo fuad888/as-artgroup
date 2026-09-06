@@ -53,6 +53,9 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    # Before LocaleMiddleware: it decides the language for a prefix-less URL,
+    # and it must not be decided by the visitor's browser setting.
+    "core.middleware.DefaultLanguageMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     # Emits ETag / handles If-None-Match so unchanged pages return 304.

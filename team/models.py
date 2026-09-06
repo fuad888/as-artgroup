@@ -14,6 +14,11 @@ class TeamMember(models.Model):
     bio = models.TextField(blank=True, help_text="Detal səhifəsi üçün")
     linkedin_url = models.URLField(blank=True)
     instagram_url = models.URLField(blank=True)
+    # Optional on purpose: not every member has a public contact.
+    phone = models.CharField(
+        max_length=32, blank=True, help_text="İstəyə bağlı. Boş buraxıla bilər."
+    )
+    email = models.EmailField(blank=True, help_text="İstəyə bağlı. Boş buraxıla bilər.")
     order = models.PositiveIntegerField(default=0)
     meta_title = models.CharField(
         max_length=70, blank=True, help_text="Boş buraxılsa ad və vəzifə istifadə olunur"
@@ -22,6 +27,16 @@ class TeamMember(models.Model):
         max_length=160, blank=True, help_text="Boş buraxılsa bio-dan götürülür"
     )
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def phone_href(self):
+        """Same dialling rules as SiteSettings, so a tap places the call."""
+        digits = "".join(c for c in self.phone if c.isdigit() or c == "+")
+        return f"tel:{digits}" if digits else ""
+
+    @property
+    def email_href(self):
+        return f"mailto:{self.email}" if self.email else ""
 
     class Meta:
         ordering = ["order", "id"]

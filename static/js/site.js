@@ -164,6 +164,31 @@
     };
 
     var endpoint = form.getAttribute('data-endpoint') || '/api/v1/contact/messages/';
+
+    /* ---- attachment chooser ---- */
+    var ALLOWED_FILE = /\.(pdf|docx?|xlsx?)$/i;
+    var fileInput = document.getElementById('fayl');
+    var fileText  = form.querySelector('.file-drop__text');
+    var fileClear = document.getElementById('fileClear');
+
+    var clearFile = function(){
+      if (!fileInput) return;
+      fileInput.value = '';
+      if (fileText) fileText.textContent = fileText.dataset.empty;
+      if (fileClear) fileClear.hidden = true;
+      form.classList.remove('has-file');
+    };
+
+    if (fileInput) {
+      fileInput.addEventListener('change', function(){
+        var chosen = fileInput.files.length ? fileInput.files[0] : null;
+        if (!chosen) return clearFile();
+        if (fileText) fileText.textContent = chosen.name;
+        if (fileClear) fileClear.hidden = false;
+        form.classList.add('has-file');
+      });
+    }
+    if (fileClear) fileClear.addEventListener('click', clearFile);
     var submitButton = form.querySelector('button[type="submit"]');
     var submitLabel = submitButton ? submitButton.innerHTML : '';
 
@@ -176,6 +201,7 @@
         phone: value('phone'),
         message: value('message')
       };
+      var file = fileInput && fileInput.files.length ? fileInput.files[0] : null;
 
       /* Client-side checks mirror contact/validators.py so the user gets
          instant feedback; the server re-validates regardless. */
@@ -193,6 +219,20 @@
         return;
       }
 
+      /* The server re-checks both of these; this only saves the visitor a
+         round trip and an upload they would have had to redo. */
+      if (file) {
+        if (!ALLOWED_FILE.test(file.name)) {
+          show(msg('filetype', 'Yalnız PDF, Word və Excel faylları qəbul olunur.'), true);
+          return;
+        }
+        var maxMb = parseFloat(form.getAttribute('data-max-file-mb')) || 10;
+        if (file.size > maxMb * 1024 * 1024) {
+          show(msg('filesize', 'Fayl çox böyükdür. Maksimum ' + maxMb + ' MB.'), true);
+          return;
+        }
+      }
+
       // Loading state: reuse the existing button, no new markup or styling.
       if (submitButton) {
         submitButton.disabled = true;
@@ -201,13 +241,17 @@
 
       var csrf = form.querySelector('[name=csrfmiddlewaretoken]');
 
+      /* multipart rather than JSON so the optional attachment rides along.
+         Content-Type is left unset on purpose: the browser has to add the
+         multipart boundary itself. */
+      var body = new FormData();
+      Object.keys(payload).forEach(function(key){ body.append(key, payload[key]); });
+      if (file) body.append('attachment', file);
+
       fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrf ? csrf.value : ''
-        },
-        body: JSON.stringify(payload)
+        headers: {'X-CSRFToken': csrf ? csrf.value : ''},
+        body: body
       }).then(function(response){
         return response.json().catch(function(){ return {}; }).then(function(data){
           return {status: response.status, data: data};
@@ -216,6 +260,7 @@
         if (result.status === 201) {
           show(msg('success', 'Təşəkkürlər! Sorğunuz qeydə alındı.').replace('{name}', payload.name));
           form.reset();
+          clearFile();
           return;
         }
         if (result.status === 429) {
@@ -291,6 +336,118 @@
     var onChange = function(e){ if (e.matches) setOpen(false); };
     if (desktop.addEventListener) desktop.addEventListener('change', onChange);
     else if (desktop.addListener) desktop.addListener(onChange);
+  }
+
+  /* ---- project gallery lightbox ----
+     Items carry their own data-* payload, so this needs no server-rendered
+     JSON blob and works for any number of gallery entries. */
+  var galleryGrid = document.getElementById('gallery');
+  var lightbox = document.getElementById('lightbox');
+
+  if (galleryGrid && lightbox) {
+    var items = Array.prototype.slice.call(galleryGrid.querySelectorAll('.gallery__item'));
+    var media = document.getElementById('lbMedia');
+    var caption = document.getElementById('lbCaption');
+    var counter = document.getElementById('lbCounter');
+    var prevBtn = document.getElementById('lbPrev');
+    var nextBtn = document.getElementById('lbNext');
+    var closeBtn = document.getElementById('lbClose');
+    var current = 0;
+    var lastFocused = null;
+
+    var single = items.length < 2;
+    prevBtn.hidden = nextBtn.hidden = single;
+
+    var clearMedia = function(){
+      // Removing the node stops a playing <video>/<iframe> dead.
+      media.innerHTML = '';
+    };
+
+    var render = function(index){
+      var el = items[index];
+      if (!el) return;
+      current = index;
+      clearMedia();
+
+      var node;
+      if (el.dataset.embed) {
+        node = document.createElement('iframe');
+        node.src = el.dataset.embed;
+        node.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture';
+        node.allowFullscreen = true;
+        node.title = el.dataset.caption || document.title;
+      } else if (el.dataset.video) {
+        node = document.createElement('video');
+        node.src = el.dataset.video;
+        node.controls = true;
+        node.autoplay = true;
+        node.playsInline = true;
+        if (el.dataset.full) node.poster = el.dataset.full;
+      } else {
+        node = document.createElement('img');
+        node.src = el.dataset.full;
+        node.alt = el.dataset.caption || '';
+      }
+      media.appendChild(node);
+
+      caption.textContent = el.dataset.caption || '';
+      counter.textContent = single ? '' : (index + 1) + ' / ' + items.length;
+    };
+
+    var step = function(delta){
+      render((current + delta + items.length) % items.length);
+    };
+
+    var open = function(index){
+      lastFocused = document.activeElement;
+      lightbox.hidden = false;
+      void lightbox.offsetWidth;          // let the fade run from the closed state
+      lightbox.classList.add('is-open');
+      document.body.classList.add('lightbox-open');
+      render(index);
+      closeBtn.focus();
+    };
+
+    var close = function(){
+      lightbox.classList.remove('is-open');
+      document.body.classList.remove('lightbox-open');
+      setTimeout(function(){
+        lightbox.hidden = true;
+        clearMedia();                     // only after the fade, or it flickers
+      }, 300);
+      if (lastFocused) lastFocused.focus();
+    };
+
+    items.forEach(function(el, index){
+      el.addEventListener('click', function(){ open(index); });
+    });
+    prevBtn.addEventListener('click', function(){ step(-1); });
+    nextBtn.addEventListener('click', function(){ step(1); });
+    closeBtn.addEventListener('click', close);
+
+    // Clicking the backdrop closes; clicking the media itself must not.
+    lightbox.addEventListener('click', function(e){
+      if (e.target === lightbox || e.target === media) close();
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (lightbox.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft' && !single) step(-1);
+      else if (e.key === 'ArrowRight' && !single) step(1);
+    });
+
+    // Swipe, the way a carousel is expected to work on a phone.
+    var touchX = null;
+    lightbox.addEventListener('touchstart', function(e){
+      touchX = e.changedTouches[0].clientX;
+    }, {passive:true});
+    lightbox.addEventListener('touchend', function(e){
+      if (touchX === null || single) return;
+      var dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 45) step(dx < 0 ? 1 : -1);
+      touchX = null;
+    }, {passive:true});
   }
 
 })();

@@ -30,3 +30,26 @@ class HtmlCacheControlMiddleware:
             response["Cache-Control"] = self.HEADER
 
         return response
+
+
+class DefaultLanguageMiddleware:
+    """Azerbaijani is the site's language; the browser's does not decide it.
+
+    LocaleMiddleware resolves a prefix-less URL by asking, in order: the
+    language cookie, then Accept-Language, then LANGUAGE_CODE. A visitor whose
+    phone is set to Russian therefore landed on /ru/ even though this is an
+    Azerbaijani company's site.
+
+    Dropping the header leaves the cookie first and LANGUAGE_CODE second, so the
+    switcher in the navigation still works and still sticks — only the browser's
+    guess is ignored. Must run before LocaleMiddleware.
+    """
+
+    HEADER = "HTTP_ACCEPT_LANGUAGE"
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        request.META.pop(self.HEADER, None)
+        return self.get_response(request)
