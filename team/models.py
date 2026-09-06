@@ -16,9 +16,16 @@ class TeamMember(models.Model):
     instagram_url = models.URLField(blank=True)
     # Optional on purpose: not every member has a public contact.
     phone = models.CharField(
-        max_length=32, blank=True, help_text="İstəyə bağlı. Boş buraxıla bilər."
+        max_length=32,
+        blank=True,
+        verbose_name="Telefon",
+        help_text="İstəyə bağlı. Boş buraxıla bilər.",
     )
-    email = models.EmailField(blank=True, help_text="İstəyə bağlı. Boş buraxıla bilər.")
+    email = models.EmailField(
+        blank=True,
+        verbose_name="Email",
+        help_text="İstəyə bağlı. Boş buraxıla bilər.",
+    )
     order = models.PositiveIntegerField(default=0)
     meta_title = models.CharField(
         max_length=70, blank=True, help_text="Boş buraxılsa ad və vəzifə istifadə olunur"
