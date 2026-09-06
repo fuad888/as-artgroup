@@ -164,15 +164,68 @@ class ThrottleTests(BaseTestCase):
 
 
 class DatabaseConfigTests(BaseTestCase):
-    def test_connections_are_persistent(self):
-        db = settings.DATABASES["default"]
-        self.assertGreater(db["CONN_MAX_AGE"], 0)
-        self.assertTrue(db["CONN_HEALTH_CHECKS"])
+    """Both engines are in use: PostgreSQL locally, SQLite on the shared host
+    that has no PostgreSQL. The right policy differs between them."""
 
-    def test_connect_timeout_is_bounded(self):
-        self.assertEqual(settings.DATABASES["default"]["OPTIONS"]["connect_timeout"], 5)
+    def test_connection_reuse_matches_the_engine(self):
+        db = settings.DATABASES["default"]
+        if connection.vendor == "postgresql":
+            # Reconnecting per request is the expensive part on PostgreSQL.
+            self.assertGreater(db["CONN_MAX_AGE"], 0)
+            self.assertTrue(db["CONN_HEALTH_CHECKS"])
+        else:
+            # SQLite has no connect cost worth amortising, and a held-open
+            # handle per worker only deepens write-lock contention.
+            self.assertEqual(db["CONN_MAX_AGE"], 0)
+
+    def test_the_engine_gets_the_options_it_understands(self):
+        options = settings.DATABASES["default"]["OPTIONS"]
+        if connection.vendor == "postgresql":
+            self.assertEqual(options["connect_timeout"], 5)
+        else:
+            self.assertGreaterEqual(options["timeout"], 20)
+            self.assertEqual(options["transaction_mode"], "IMMEDIATE")
+            self.assertIn("journal_mode=WAL", options["init_command"])
+
+    def test_sqlite_actually_runs_in_wal_mode(self):
+        """A login writes a session row; in the default rollback-journal mode a
+        concurrent read blocks that write and the request 500s.
+
+        Opened against a real file because the test database lives in memory,
+        where journal_mode is always "memory". This exercises Django's own
+        init_command handling rather than trusting the setting to be read.
+        """
+        if connection.vendor != "sqlite":
+            self.skipTest("PostgreSQL has no journal mode")
+
+        import tempfile
+        from pathlib import Path
+
+        from django.db.backends.sqlite3.base import DatabaseWrapper
+
+        with tempfile.TemporaryDirectory() as tmp:
+            settings_dict = {
+                **settings.DATABASES["default"],
+                "NAME": str(Path(tmp) / "probe.sqlite3"),
+                "ATOMIC_REQUESTS": False,
+                "AUTOCOMMIT": True,
+                "CONN_MAX_AGE": 0,
+                "CONN_HEALTH_CHECKS": False,
+                "TIME_ZONE": None,
+            }
+            probe = DatabaseWrapper(settings_dict, alias="wal-probe")
+            try:
+                with probe.cursor() as cursor:
+                    mode = cursor.execute("PRAGMA journal_mode").fetchone()[0]
+                    timeout = cursor.execute("PRAGMA busy_timeout").fetchone()[0]
+            finally:
+                probe.close()
+
+        self.assertEqual(mode, "wal")
+        self.assertGreaterEqual(timeout, 20000)
 
     def test_growth_prone_tables_are_indexed(self):
+        """Introspection rather than pg_indexes, so this holds on either engine."""
         expected = {
             Project: {"project_featured_order_idx", "project_order_idx"},
             TeamMember: {"team_order_idx"},
@@ -180,14 +233,15 @@ class DatabaseConfigTests(BaseTestCase):
         }
         for model, names in expected.items():
             with connection.cursor() as cursor:
-                cursor.execute(
-                    "SELECT indexname FROM pg_indexes WHERE tablename = %s",
-                    [model._meta.db_table],
+                constraints = connection.introspection.get_constraints(
+                    cursor, model._meta.db_table
                 )
-                found = {row[0] for row in cursor.fetchall()}
+            found = {name for name, spec in constraints.items() if spec.get("index")}
             self.assertTrue(names.issubset(found), f"{model.__name__}: missing {names - found}")
 
     def test_featured_projects_query_uses_the_index(self):
+        if connection.vendor != "postgresql":
+            self.skipTest("EXPLAIN output is engine specific")
         category = ProjectCategory.objects.create(name="Konsert", slug="konsert")
         for i in range(50):
             Project.objects.create(title=f"P{i}", category=category, is_featured=i % 2 == 0)

@@ -102,8 +102,24 @@ DATABASES = {
         "CONN_HEALTH_CHECKS": True,
     },
 }
-if "postgresql" in DATABASES["default"]["ENGINE"]:
+_db_engine = DATABASES["default"]["ENGINE"]
+if "postgresql" in _db_engine:
     DATABASES["default"]["OPTIONS"] = {"connect_timeout": 5}
+elif "sqlite" in _db_engine:
+    # SQLite serialises writes, and a web app writes on every login (session
+    # row + last_login). Under two workers the default settings raise
+    # "database is locked" on exactly those requests: reads keep working, the
+    # login 500s. WAL lets readers continue during a write, the longer timeout
+    # waits for the lock instead of giving up, and IMMEDIATE takes the write
+    # lock up front so two workers cannot deadlock upgrading a read.
+    DATABASES["default"]["OPTIONS"] = {
+        "timeout": 20,
+        "transaction_mode": "IMMEDIATE",
+        "init_command": "PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;",
+    }
+    # Holding the file open per worker makes contention worse, and SQLite has
+    # no connection cost worth amortising.
+    DATABASES["default"]["CONN_MAX_AGE"] = 0
 
 
 # Cache — Redis when REDIS_URL is configured, in-memory otherwise.
