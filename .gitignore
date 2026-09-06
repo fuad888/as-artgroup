@@ -12,3 +12,6 @@ staticfiles/
 locale/*/LC_MESSAGES/*.mo
 .claude/settings.local.json
 logs/
+# Passenger restart trigger: written on the server by deploy.sh. Tracking it
+# would make "touch tmp/restart.txt" a local change and break git pull --ff-only.
+tmp/

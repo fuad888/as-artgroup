@@ -35,8 +35,8 @@ python manage.py migrate --noinput
 step "4/5  Statik faylları yığıram"
 python manage.py collectstatic --noinput
 
-step "5/5  Konfiqurasiyanı yoxlayıram"
-python manage.py check --deploy || true   # warnings must not stop a deploy
+step "5/5  Konfiqurasiyanı yoxlayıram (xəbərdarlıqlar deploy-u dayandırmır)"
+python manage.py check --deploy || true
 
 mkdir -p tmp && touch tmp/restart.txt
 
