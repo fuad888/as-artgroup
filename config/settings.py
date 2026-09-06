@@ -190,9 +190,13 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 # WhiteNoise serves collected static files with hashed names, pre-compressed as
 # gzip + brotli, so they can be cached immutably for a year.
+# Named separately because the test block below swaps STORAGES out; this stays
+# readable as the backend production actually serves with.
+PRODUCTION_STATICFILES_BACKEND = "core.storage.ResilientManifestStaticFilesStorage"
+
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+    "staticfiles": {"BACKEND": PRODUCTION_STATICFILES_BACKEND},
 }
 WHITENOISE_MAX_AGE = 31536000
 
