@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n images %}
 {% block content %}
 <section class="section">
   <span class="shape ring f-c" style="--c1:#22D3EE;--c2:#8B5CF6;width:120px;height:120px;top:6%;left:2%"></span>
@@ -12,7 +12,11 @@
 
     <div class="about__grid">
       <div class="about__media rv">
-        <img loading="lazy" decoding="async" src="{{ project.display_image_url }}" alt="{{ project.title }}">
+        {% responsive_srcset project.display_image_url as detail_srcset %}
+        <img src="{{ project.display_image_url }}"
+             {% if detail_srcset %}srcset="{{ detail_srcset }}" sizes="(max-width:980px) 100vw, 50vw"{% endif %}
+             {# Above the fold on this page, so it is the LCP element: never lazy. #}
+             fetchpriority="high" decoding="async" alt="{{ project.title }}">
       </div>
       <div class="about__text rv" data-d="1">
         {% if project.description %}<p class="lead">{{ project.description }}</p>{% endif %}

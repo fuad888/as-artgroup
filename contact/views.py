@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from .forms import ContactMessageForm
+from .throttling import submission_allowed
 
 
 def contact_page(request):
@@ -18,6 +19,13 @@ def contact_submit(request):
     """No-JS progressive-enhancement fallback. The primary submission path is
     the JS fetch() call against /api/v1/contact/messages/."""
     if request.method == "POST":
+        if not submission_allowed(request):
+            messages.error(
+                request,
+                "Çox sayda sorğu göndərildi. Bir qədər sonra yenidən cəhd edin.",
+            )
+            return redirect(reverse("contact:page"))
+
         form = ContactMessageForm(request.POST)
         if form.is_valid():
             form.save()

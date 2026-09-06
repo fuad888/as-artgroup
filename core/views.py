@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.urls import reverse
+from django.utils.cache import patch_cache_control
 
 from .models import SeoSettings
 
@@ -19,4 +20,8 @@ def robots_txt(request):
             "",
             f"Sitemap: {sitemap_url}",
         ]
-    return HttpResponse("\n".join(lines) + "\n", content_type="text/plain")
+    response = HttpResponse("\n".join(lines) + "\n", content_type="text/plain")
+    # Crawlers refetch this constantly and it changes only when an admin flips
+    # the indexing switch; an hour at the edge costs nothing and saves a render.
+    patch_cache_control(response, public=True, max_age=300, s_maxage=3600)
+    return response

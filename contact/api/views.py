@@ -1,11 +1,8 @@
 from rest_framework.generics import CreateAPIView
-from rest_framework.throttling import AnonRateThrottle
+
+from contact.throttling import ContactThrottle
 
 from .serializers import ContactMessageSerializer
-
-
-class ContactThrottle(AnonRateThrottle):
-    scope = "contact"
 
 
 class ContactMessageCreateView(CreateAPIView):

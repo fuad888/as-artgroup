@@ -1,3 +1,5 @@
+import time
+from unittest import mock
 from django.core.cache import caches
 from django.test import override_settings
 
@@ -87,3 +89,80 @@ class CacheRecoveryTests(BaseTestCase):
         SiteSettings.load()
         with self.assertNumQueries(0):
             SiteSettings.load()
+
+
+class CircuitBreakerTests(BaseTestCase):
+    """Degrading is not enough on its own.
+
+    With socket_connect_timeout=3, a page that touches the cache several times
+    turns an unreachable Redis into a multi-second wait per request — the site
+    looks frozen. After one failure the backend must stop dialling.
+    """
+
+    def setUp(self):
+        super().setUp()
+        from core.cache import ResilientRedisCache
+
+        self.cls = ResilientRedisCache
+        self.cls._unavailable_until = 0.0
+        self.addCleanup(setattr, self.cls, "_unavailable_until", 0.0)
+        self.cache = ResilientRedisCache("redis://127.0.0.1:6399", {})
+
+    def _break_redis(self, calls):
+        """Patch the real client so every call fails and is counted."""
+        from redis.exceptions import ConnectionError as RedisConnectionError
+
+        def fail(*args, **kwargs):
+            calls.append(1)
+            raise RedisConnectionError("refused")
+
+        return mock.patch.object(
+            self.cls.__mro__[1], "get", side_effect=fail, autospec=False
+        )
+
+    def test_the_first_failure_stops_further_dialling(self):
+        calls = []
+        with self._break_redis(calls):
+            for _ in range(10):
+                self.assertIsNone(self.cache.get("k"))
+        self.assertEqual(len(calls), 1, "Redis was dialled more than once while down")
+
+    def test_the_fallback_value_is_still_correct_while_open(self):
+        calls = []
+        with self._break_redis(calls):
+            self.cache.get("k")  # trips the breaker
+            self.assertEqual(self.cache.get("k", "default"), "default")
+
+    def test_writes_are_skipped_too_rather_than_waiting(self):
+        calls = []
+        with self._break_redis(calls):
+            self.cache.get("k")
+        self.assertTrue(self.cache._is_open())
+        # No exception, no dialling: set/add/delete answer from the fallback.
+        self.assertIsNone(self.cache.set("k", "v"))
+        self.assertFalse(self.cache.add("k", "v"))
+        self.assertFalse(self.cache.delete("k"))
+        self.assertEqual(self.cache.get_many(["a"]), {})
+
+    def test_it_retries_once_the_cooldown_has_passed(self):
+        import core.cache as cache_module
+
+        calls = []
+        with self._break_redis(calls):
+            self.cache.get("k")
+            self.assertEqual(len(calls), 1)
+            # Pretend the cooldown elapsed.
+            self.cls._unavailable_until = (
+                time.monotonic() - cache_module.COOLDOWN_SECONDS
+            )
+            self.cache.get("k")
+        self.assertEqual(len(calls), 2, "breaker never retried after the cooldown")
+
+    def test_a_success_closes_the_breaker_again(self):
+        self.cls._unavailable_until = time.monotonic() + 999
+        with mock.patch.object(self.cls.__mro__[1], "get", return_value="value"):
+            # Still open, so this is served from the fallback without dialling.
+            self.assertIsNone(self.cache.get("k"))
+            self.cls._unavailable_until = 0.0
+            self.assertEqual(self.cache.get("k"), "value")
+        self.assertFalse(self.cache._is_open())
